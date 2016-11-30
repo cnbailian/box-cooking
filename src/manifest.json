@@ -1,0 +1,45 @@
+{
+    "manifest_version": 2,
+    "name": "box",
+    "version": "0.1",
+    "description": "使用右键菜单碎片化存储信息",
+    "icons": {
+        "16": "extension/images/icon.png",
+        "48": "extension/images/icon.png",
+        "128": "extension/images/icon.png"
+    },
+    "options_ui": {
+        "page": "index.html",
+        "chrome_style": true,
+        "open_in_tab": true
+    },
+    "permissions": [
+        "clipboardWrite",
+        "clipboardRead",
+        "contextMenus"
+    ],
+    "background": {
+        "scripts": [
+            "extension/js/jquery.min.js",
+            "extension/js/background.js"
+        ]
+    },
+    "content_scripts": [
+        {
+            "matches" : [
+                "http://*/*" ,
+                "https://*/*" ,
+                "file:///*"
+            ] ,
+            "js": ["extension/js/jquery.min.js","extension/js/content.js"]
+        }
+    ],
+    "browser_action": {
+        "default_icon": {
+            "19": "extension/images/icon.png",
+            "38": "extension/images/icon.png"
+        },
+        "default_title": "box",
+        "default_popup": "extension/popup.html"
+    }
+}

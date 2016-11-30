@@ -6,7 +6,7 @@
   "keywords": [],
   "scripts": {
     "dev": "cooking watch -p",
-    "dist": "cooking build -p",
+    "dist": "cooking build -p && node chrome.js",
     "deploy": "cooking build --no-color"
   },
   "repository": {
@@ -50,6 +50,7 @@
     "json-loader": "^0.5.4",
     "postcss": "^5.2.6",
     "postcss-loader": "^0.11.1",
+    "shelljs": "^0.7.5",
     "style-loader": "^0.13.1",
     "url-loader": "^0.5.7",
     "vue-route": "^1.5.1",

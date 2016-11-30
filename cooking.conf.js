@@ -1,6 +1,5 @@
 var path = require('path');
 var cooking = require('cooking');
-var webpack = require('webpack')
 
 cooking.set({
   entry: {
@@ -33,15 +32,7 @@ cooking.set({
   // , 'lint'
   extends: ['vue2', 'buble', 'autoprefixer']
 });
+cooking.add('output.filename', '[name].js')
 cooking.add('entry.commons', [ __dirname + '/src/extension/background.js' ])
-cooking.add('plugin.commons', new webpack.optimize.CommonsChunkPlugin({names: ['commons'], filename: '[name].js', children :true}))
-  // //  {
-  //       names: ['libraries-core', 'libraries-react'],
-  //       minChunks: Infinity
-  //    }
-  //  {names: ['libraries-react', 'libraries-core'], filename: '[name].js'}
-// // {
-//             names: "./src/extension/js/background.js",
-//             minChunks: 2
-//         }
+
 module.exports = cooking.resolve();
