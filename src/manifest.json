@@ -19,10 +19,7 @@
         "contextMenus"
     ],
     "background": {
-        "scripts": [
-            "extension/js/jquery.min.js",
-            "extension/js/background.js"
-        ]
+        "scripts": ["manifest.js","vendor.js","commons.js"]
     },
     "content_scripts": [
         {
@@ -31,7 +28,7 @@
                 "https://*/*" ,
                 "file:///*"
             ] ,
-            "js": ["extension/js/jquery.min.js","extension/js/content.js"]
+            "js": ["manifest.js","vendor.js","commons.js"]
         }
     ],
     "browser_action": {

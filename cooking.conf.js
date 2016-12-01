@@ -1,5 +1,7 @@
 var path = require('path');
 var cooking = require('cooking');
+var webpack = require('webpack');
+var HtmlWebpackPlugin = require('html-webpack-plugin');
 
 cooking.set({
   entry: {
@@ -32,7 +34,13 @@ cooking.set({
   // , 'lint'
   extends: ['vue2', 'buble', 'autoprefixer']
 });
-cooking.add('output.filename', '[name].js')
-cooking.add('entry.commons', [ __dirname + '/src/extension/background.js' ])
+cooking.add('output.filename', '[name].js');
+cooking.add('entry.commons', [ __dirname + '/src/extension/background.js' ] );
+cooking.add('plugin.commons', new webpack.optimize.CommonsChunkPlugin({names: ['commons'], children :true}));
+cooking.add('plugin.html', new HtmlWebpackPlugin({
+  chunks: ['manifest','vendor','app'],
+  template: './src/view/index.html', //生成的html存放路径，相对于path
+  inject: 'body'
+}));
 
 module.exports = cooking.resolve();
