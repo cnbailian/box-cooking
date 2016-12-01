@@ -11,9 +11,13 @@ module.exports = function(Vue, options)
   // 传递name
   Vue.prototype.name = name
   // 构建对象
-  Vue.prototype.ssj = AV.Object.extend(className)
+  Vue.prototype.box = AV.Object.extend(className)
+  // 构建文件对象
+  Vue.prototype.file = function(name, url){
+    return AV.File.withURL(name, url)
+  }
   // 构建更新对象
-  Vue.prototype.ssjUpdate = function(objectId){
+  Vue.prototype.boxUpdate = function(objectId){
     return AV.Object.createWithoutData(className, objectId)
   }
   // 查询

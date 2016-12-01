@@ -18,7 +18,7 @@
 		<!--列表-->
 		<template>
 			<el-table :data="tableData" highlight-current-row v-loading="listLoading" style="width: 100%;">
-				<el-table-column type="index" width="50">
+				<el-table-column type="index" width="100">
 				</el-table-column>
 				<el-table-column prop="name" label="姓名" width="100" sortable>
 				</el-table-column>
@@ -167,8 +167,8 @@
 					type: 'warning'
 				}).then(() => {
 					self.submiting(0)
-					var ssj = new self.ssjUpdate(row.id)
-					ssj.destroy().then(function (success) {
+					var box = new self.boxUpdate(row.id)
+					box.destroy().then(function (success) {
 						self.end({ title: '成功', message: '删除成功', type: 'success' })
 						self.getList()
 				  }, function (error) {
@@ -184,12 +184,12 @@
 					if(valid){
 						self.$confirm('确认提交吗？','提示',{}).then(()=>{
 							self.submiting(1)
-							var ssj = (self.editForm.id === 0) ? new self.ssj() : new self.ssjUpdate(self.editForm.id)
+							var box = (self.editForm.id === 0) ? new self.box() : new self.boxUpdate(self.editForm.id)
 							delete self.editForm.id
 							for (let key in self.editForm) {
-							  ssj.set(key, self.editForm[key])
+							  box.set(key, self.editForm[key])
 							}
-							ssj.save().then(function (todo) {
+							box.save().then(function (todo) {
 								self.end({ title: '成功', message: '提交成功', type: 'success' })
 								self.getList()
 						  }, function (error) {

@@ -2,7 +2,8 @@
 	<el-row class="panel">
 		<el-col class="panel-top">
 			<el-col style="font-size:26px;">
-				<span>AD<i style="color:#20a0ff">MIN</i></span>
+				<img src="../icon.png" alt="" style="width: 3%;float: left;margin-right: 10px;">
+				<span>B<i style="color:#20a0ff">ox</i></span>
 			</el-col>
 		</el-col>
 		<el-col :span="24">
@@ -21,7 +22,7 @@
 			<section class="panel-c-c">
 				<div class="grid-content bg-purple-light">
 					<el-col :span="24" style="margin-bottom:15px;">
-						<strong style="width:200px;float:left;color: #475669;">{{currentPathName}}</strong>
+						<strong style="width:200px;float:left;color: #475669;font-size: 21px;">{{currentPathName}}</strong>
 					</el-col>
 					<el-col :span="24" style="background-color:#fff;box-sizing: border-box;">
 						<transition name="fade">
