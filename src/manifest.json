@@ -33,10 +33,11 @@
     ],
     "browser_action": {
         "default_icon": {
-            "19": "icon.png",
-            "38": "icon.png"
+            "16": "icon.png",
+            "24": "icon.png",
+            "32": "icon.png"
         },
-        "default_title": "box",
+        "default_title": "Box",
         "default_popup": "index.html"
     }
 }

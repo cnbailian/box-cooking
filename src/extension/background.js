@@ -10,6 +10,14 @@ chrome.contextMenus.create({
   contexts: ['all']
 })
 
+chrome.contextMenus.create({
+  id:'Box1',
+  type: 'normal',
+  title: 'Save To Box111111111111111',
+  onclick: add,
+  contexts: ['all']
+})
+
 var data = {
   'type': 'link',
   'content': ''
