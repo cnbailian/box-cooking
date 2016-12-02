@@ -13,9 +13,13 @@ chrome.contextMenus.create({
 chrome.contextMenus.create({
   id:'Box1',
   type: 'normal',
-  title: 'Save To Box111111111111111',
-  onclick: add,
-  contexts: ['all']
+  title: '管理页面',
+  onclick: function(info) {
+    return chrome.tabs.create({
+      url: 'index.html'
+    })
+  },
+  contexts: ['browser_action']
 })
 
 var data = {
