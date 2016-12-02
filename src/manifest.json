@@ -10,7 +10,7 @@
     },
     "options_ui": {
         "page": "index.html",
-        "chrome_style": true,
+        "chrome_style": false,
         "open_in_tab": true
     },
     "permissions": [
