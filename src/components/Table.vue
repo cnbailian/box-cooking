@@ -140,7 +140,7 @@
 					this.editFormTtile='新增'
 					this.editForm.id=0
 					this.editForm.name=this.name
-					this.editForm.type=''
+					this.editForm.type='text'
 					this.editForm.content=''
 				}
 			},
@@ -182,20 +182,29 @@
 				var self=this;
 				self.$refs.editForm.validate((valid)=>{
 					if(valid){
-						self.$confirm('确认提交吗？','提示',{}).then(()=>{
-							self.submiting(1)
-							var box = (self.editForm.id === 0) ? new self.box() : new self.boxUpdate(self.editForm.id)
-							delete self.editForm.id
-							for (let key in self.editForm) {
-							  box.set(key, self.editForm[key])
-							}
-							box.save().then(function (todo) {
-								self.end({ title: '成功', message: '提交成功', type: 'success' })
-								self.getList()
-						  }, function (error) {
-								self.end({ title: '失败', message: '提交失败'+error, type: 'error' })
-						  })
-						})
+						self.submiting(1)
+						var box = (self.editForm.id === 0) ? new self.box() : new self.boxUpdate(self.editForm.id)
+						delete self.editForm.id
+						if (self.editForm.type == 'img') {
+							var content = self.editForm.content
+							var fileName = content.replace(/^.*[\\\/]/, '')
+					    var file = self.file(fileName, content)
+					    file.save().then(function(file) {
+								console.log(file)
+					      self.editForm.content = file.url()
+					    }, function(error) {
+					      console.error(error)
+					    })
+						}
+						for (let key in self.editForm) {
+						  box.set(key, self.editForm[key])
+						}
+						box.save().then(function (todo) {
+							self.end({ title: '成功', message: '提交成功', type: 'success' })
+							self.getList()
+					  }, function (error) {
+							self.end({ title: '失败', message: '提交失败'+error, type: 'error' })
+					  })
 					}
 				})
 			}

@@ -9,13 +9,17 @@ import 'nprogress/nprogress.css'
 import Home from './components/Home.vue'
 import Main from './components/Main.vue'
 import Table from './components/Table.vue'
-import Form from './components/Form.vue'
+import Type from './components/Type.vue'
+import Img from './components/Img.vue'
+import TextT from './components/Text.vue'
+import Link from './components/Link.vue'
 
 Vue.use(ElementUI)
 Vue.use(VueRouter)
 
 // leancloud
 Vue.use(require('../leancloud/leancloud'))
+Vue.use(require('../leancloud/type'))
 
 // 路由
 const routes = [
@@ -26,7 +30,10 @@ const routes = [
     children: [
       { path: '/main', component: Main },
       { path: '/table', component: Table, name: 'Table' },
-      { path: '/form', component: Form, name: 'Form' }
+      { path: '/type', component: Type, name: 'Type' },
+      { path: '/img', component: Img, name: 'Img' },
+      { path: '/text', component: TextT, name: 'Text' },
+      { path: '/link', component: Link, name: 'Link' }
     ]
   }
 ]

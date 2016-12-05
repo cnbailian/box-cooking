@@ -16,7 +16,7 @@ window.onmouseup = function(e){
   		{
         // 获取选中文本
   			case (selection !== ''):
-  				config.type = 'string';
+  				config.type = 'text';
   				config.content = selection;
   				break;
         // 获取图片

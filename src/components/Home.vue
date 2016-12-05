@@ -12,9 +12,7 @@
 				<el-menu style="border-top: 1px solid #475669;" default-active="/table" class="el-menu-vertical-demo" @open="handleopen"
 					@close="handleclose" @select="handleselect" theme="dark" unique-opened router>
 					<el-menu-item index="/table"><i class="fa fa-line-chart"></i>table</el-menu-item>
-					<el-menu-item index="/form"><i class="fa fa-line-chart"></i>form</el-menu-item>
-					<el-menu-item index="/page3"><i class="fa fa-line-chart"></i>page3</el-menu-item>
-					<el-menu-item index="/page6"><i class="fa fa-line-chart"></i>导航三</el-menu-item>
+					<el-menu-item index="/type"><i class="fa fa-line-chart"></i>type</el-menu-item>
 				</el-menu>
 			</aside>
 			<!--</el-col>-->
@@ -25,7 +23,7 @@
 						<strong style="width:200px;float:left;color: #475669;font-size: 21px;">{{currentPathName}}</strong>
 					</el-col>
 					<el-col :span="24" style="background-color:#fff;box-sizing: border-box;">
-						<transition name="fade">
+						<transition name="expand">
 							<router-view></router-view>
 						</transition>
 					</el-col>
@@ -66,14 +64,20 @@
 </script>
 
 <style scoped>
-	.fade-enter-active,
-	.fade-leave-active {
-		transition: opacity .5s
+	/* 必需 */
+	.expand-transition {
+	  transition: all .3s ease;
+	  height: 30px;
+	  padding: 10px;
+	  background-color: #eee;
+	  overflow: hidden;
 	}
-
-	.fade-enter,
-	.fade-leave-active {
-		opacity: 0
+	/* .expand-enter 定义进入的开始状态 */
+	/* .expand-leave 定义离开的结束状态 */
+	.expand-enter, .expand-leave {
+	  height: 0;
+	  padding: 0 10px;
+	  opacity: 0;
 	}
 
 	.panel {

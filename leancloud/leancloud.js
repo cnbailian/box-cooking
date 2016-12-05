@@ -1,13 +1,14 @@
 // lean-cloud 插件
 import AV from 'leancloud-storage'
 
-module.exports = function(Vue, options)
+module.exports = function(Vue)
 {
   const appId = 'elR6fJcxD9naWm6FH7IDuEKN-gzGzoHsz'
   const appKey = '0VRq8PgueqvYQioustY2Cw3I'
-  const className = 'ssj'
+  const className = 'box'
   const name = 'box'
   AV.init({ appId, appKey })
+
   // 传递name
   Vue.prototype.name = name
   // 构建对象
@@ -23,6 +24,7 @@ module.exports = function(Vue, options)
   // 查询
   Vue.prototype.query = function (){
     var query = new AV.Query(className)
+    query.equalTo('name', name)
     return query
   }
 }
