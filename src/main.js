@@ -7,11 +7,10 @@ import NProgress from 'nprogress'//页面顶部进度条
 import 'nprogress/nprogress.css'
 
 import Home from './components/Home.vue'
-import Main from './components/Main.vue'
 import Table from './components/Table.vue'
 import Type from './components/Type.vue'
 import Img from './components/Img.vue'
-import TextT from './components/Text.vue'
+import Text from './components/Text.vue'
 import Link from './components/Link.vue'
 
 Vue.use(ElementUI)
@@ -28,11 +27,10 @@ const routes = [
     component: Home,
     name: 'Home',
     children: [
-      { path: '/main', component: Main },
-      { path: '/table', component: Table, name: 'Table' },
+      { path: '/', component: Table, name: 'Table' },
       { path: '/type', component: Type, name: 'Type' },
       { path: '/img', component: Img, name: 'Img' },
-      { path: '/text', component: TextT, name: 'Text' },
+      { path: '/text', component: Text, name: 'Text' },
       { path: '/link', component: Link, name: 'Link' }
     ]
   }
@@ -50,10 +48,8 @@ router.afterEach(transition => {
   NProgress.done();
 });
 
-new Vue({ // eslint-disable-line
+new Vue({
   el: '#app',
   router,
   render: h => h(App)
 })
-
-router.replace('/table')

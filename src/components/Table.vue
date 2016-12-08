@@ -109,6 +109,7 @@
 			getList:function(content = false){
 				var self = this
 				var query = self.query()
+  			query.descending('createdAt');
 				query.count().then(function (count) {
 					self.count = count
 			  });

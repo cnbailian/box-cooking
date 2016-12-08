@@ -9,9 +9,9 @@
 		<el-col :span="24">
 			<!--<el-col :span="4">-->
 			<aside style="width:230px;">
-				<el-menu style="border-top: 1px solid #475669;" default-active="/table" class="el-menu-vertical-demo" @open="handleopen"
+				<el-menu style="border-top: 1px solid #475669;" :default-active="defaultActive" class="el-menu-vertical-demo" @open="handleopen"
 					@close="handleclose" @select="handleselect" theme="dark" unique-opened router>
-					<el-menu-item index="/table"><i class="fa fa-line-chart"></i>table</el-menu-item>
+					<el-menu-item index="/"><i class="fa fa-line-chart"></i>table</el-menu-item>
 					<el-menu-item index="/type"><i class="fa fa-line-chart"></i>type</el-menu-item>
 				</el-menu>
 			</aside>
@@ -38,13 +38,17 @@
   export default {
     data() {
       return {
-			  currentPathName:'Table'
+			  currentPathName:'Table',
+				defaultActive:this.$root._route.path
       }
     },
 		watch: {
 			'$route' (to, from) {//监听路由改变
-				this.currentPathName=to.name;
+				this.currentPathName=to.name
 			}
+		},
+		created(){
+			console.log(this.default)
 		},
     methods: {
       onSubmit() {

@@ -6,11 +6,16 @@ var HtmlWebpackPlugin = require('html-webpack-plugin');
 cooking.set({
   entry: {
     app: ['babel-polyfill', './src/main.js'],
+    popup: ['babel-polyfill', './src/popup/main.js'],
   },
   dist: './dist',
   template: {
     'index.html': {
       chunks: ['manifest','vendor','app'],
+      template: './index.tpl'
+    },
+    'popup.html': {
+      chunks: ['manifest','vendor','popup'],
       template: './index.tpl'
     }
   },

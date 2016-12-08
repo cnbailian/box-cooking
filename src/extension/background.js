@@ -6,7 +6,7 @@ chrome.contextMenus.create({
   id:'Box',
   type: 'normal',
   title: 'Save To Box',
-  onclick: add,
+  onclick: save,
   contexts: ['all']
 })
 
@@ -26,7 +26,7 @@ var data = {
   'type': 'link',
   'content': ''
 }
-function add(){
+function save(){
   var box = new Vue.prototype.box;
   box.set('name',Vue.prototype.name)
   box.set('type',data.type)
