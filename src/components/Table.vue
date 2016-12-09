@@ -46,14 +46,14 @@
 		<el-dialog :title="editFormTtile" v-model="editFormVisible" :close-on-click-modal="false">
 			<el-form :model="editForm" label-width="80px" ref="editForm">
 				<el-form-item label="姓名" prop="name">
-					<el-input v-model="editForm.name" auto-complete="off"></el-input>
+					<el-input v-model="editForm.name" auto-complete="off" :disabled="true"></el-input>
 				</el-form-item>
 				<el-form-item label="类型">
 					<el-select v-model="editForm.type" placeholder="请选择" @change="handleType">
 				    <el-option v-for="item in options" :label="item.name" :value="item.value"></el-option>
 				  </el-select>
 				</el-form-item>
-				<el-form-item label="图片上传" v-show="showUpload">
+				<el-form-item label="图片上传" v-show="showImg">
 					<el-card :body-style="{ padding: '0px' }" style="max-height:300px;"  v-show="showThumbnail">
 						<img :src="thumbnail" class="image">
 					</el-card>
@@ -63,6 +63,9 @@
 				</el-form-item>
 				<el-form-item label="内容">
 					<el-input type="textarea" v-model="editForm.content" :placeholder="placeholder"></el-input>
+				</el-form-item>
+				<el-form-item label="描述" v-show="showImg">
+					<el-input type="textarea" v-model="description" placeholder="描述"></el-input>
 				</el-form-item>
 			</el-form>
 			<div slot="footer" class="dialog-footer">
@@ -86,15 +89,15 @@
 				editFormTtile:'编辑', // 表单标题
 				editForm: {}, // 表单内容默认值
 				placeholder: '请输入文本内容',  // 内容的默认文本
-				showUpload: false, // 上传show开关
+				showImg: false, // 上传show开关
 				showThumbnail: false, // 缩略图show开关
 				thumbnail: '', // 默认缩略图
-				// 默认类别
-				options: this.typeList,
-				editLoading:false,
-				btnEditText:'提 交',
-				tableData: [],
-				listLoading:false
+				description: '', // 默认图片描述
+				options: this.typeList,	// 默认类别
+				editLoading:false, // 提交状态
+				btnEditText:'提 交', // 提交按钮内容
+				tableData: [], // 默认列表内容
+				listLoading:true // 列表加载
      	}
     },
 		created(){
@@ -105,18 +108,18 @@
     methods: {
 			// 类型切换
 			handleType(type) {
-				this.showUpload = false
+				this.showImg = false
 				switch(type){
 					case 'img':
-						this.showUpload = true
+						this.showImg = true
 						this.placeholder = '请输入图像网络地址'
-						break;
+						break
 					case 'link':
 						this.placeholder = '请输入链接地址'
-						break;
+						break
 					case 'text':
 						this.placeholder = '请输入文本内容'
-						break;
+						break
 				}
 			},
       handleUplode(file) {
@@ -142,6 +145,7 @@
 			},
 			// 列表获取
 			getList:function(content = false){
+				this.listLoading = true
 				var self = this
 				var query = self.query()
   			query.descending('createdAt');
@@ -161,11 +165,12 @@
 						array.push(value)
 					})
 					self.tableData = array
+					self.listLoading = false
 			  })
 			},
 			// 表单赋值
 			setForm:function(row){
-				this.showUpload = false
+				this.showImg = false
 				this.showThumbnail = false
 				this.editFormVisible = true
 				if (row) {
@@ -177,7 +182,7 @@
 						content: row.content
 					}
 					if (row.type == 'img') {
-						this.showUpload = true
+						this.showImg = true
 						this.showThumbnail = true
 						this.thumbnail = row.content
 					}
@@ -192,11 +197,11 @@
 				}
 			},
 			// 提交中
-			submiting:function(bth){
+			submiting:function(bool){
 				this.editLoading = true
 				NProgress.start()
-				if (bth) {
-					this.btnEditText='提交中'
+				if (bool) {
+					this.btnEditText = '提交中'
 				}
 			},
 			// 提交完成
@@ -222,7 +227,7 @@
 						self.end({ title: '失败', message: '删除失败', type: 'error' })
 				  });
 				}).catch(() => {
-				});
+				})
 			},
 			//提交
 			editSubmit:function(){
@@ -234,13 +239,9 @@
 				delete self.editForm.id
 				// 图像特殊处理
 				if (self.editForm.type == 'img') {
-					if (self.currentFile) {
-						var fileName = self.currentFile.name
-						var file = self.file(fileName, self.currentFile)
-					}else{
-						var fileName = self.editForm.content.replace(/^.*[\\\/]/, '')
-				    var file = self.networkFile(fileName, self.editForm.content)
-					}
+					self.editForm.description = self.description
+					var fileName = self.currentFile ? self.currentFile.name : self.editForm.content.replace(/^.*[\\\/]/, '')
+					var file = self.currentFile ? self.file(fileName, self.currentFile) :  self.networkFile(fileName, self.editForm.content)
 			    file.save().then(function(file) {
 			      self.editForm.content = file.url()
 						for (let key in self.editForm) {

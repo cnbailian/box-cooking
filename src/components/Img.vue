@@ -1,16 +1,17 @@
 <template>
 	<section>
-		<el-row>
+		<el-row v-loading="loading">
 		  <el-col :span="8" v-for="(img, index) in imgs">
 		    <el-card :body-style="{ padding: '0px' }">
 					<div style="height:200px;">
 		      	<img :src="img.content" class="image">
 					</div>
 		      <div style="padding: 14px;">
-		        <span>{{ img.name }}</span>
+		        <span>{{ img.description }}</span>
 		        <div class="bottom clearfix">
 						  <time class="time">{{ img.time }}</time>
 		          <el-button type="text" class="button" @click="handleDel(img.id)">删除</el-button>
+		          <el-button type="text" class="button" @click="handleEdit(img)" style="margin-right:10px;">编辑</el-button>
 		        </div>
 		      </div>
 		    </el-card>
@@ -23,6 +24,18 @@
 				:total="count" style="float:right">
 			</el-pagination>
 		</el-col>
+
+		<el-dialog title="编辑" v-model="showForm" :close-on-click-modal="false">
+			<el-form label-width="80px" ref="editForm">
+				<el-form-item label="描述">
+					<el-input type="textarea" v-model="description" placeholder="描述"></el-input>
+				</el-form-item>
+			</el-form>
+			<div slot="footer" class="dialog-footer">
+				<el-button @click.native="showForm = false">取 消</el-button>
+				<el-button type="primary" @click.native="editSubmit" :loading="editLoading">{{ btnEditText }}</el-button>
+			</div>
+		</el-dialog>
 	</section>
 </template>
 
@@ -33,7 +46,12 @@ export default {
 	data() {
 		return {
 			imgs: [],
-			count:0
+			count:0,
+			loading: true,
+			showForm: false,
+			description: '',
+			editLoading: false,
+			btnEditText: '提 交'
 		};
 	},
 	created(){
@@ -52,8 +70,34 @@ export default {
 			this.tablePage = page
 			this.getList()
 		},
+		handleEdit:function(img){
+			this.showForm = true
+			this.description = img.description
+			this.imgId = img.id
+		},
+		editSubmit:function(){
+			var self = this;
+			// 设置提交状态
+			self.editLoading = true
+			self.btnEditText = '提交中'
+			var box = new self.boxUpdate(this.imgId)
+			box.set('description', self.description)
+			box.save().then(function (todo) {
+				self.editLoading = false
+				self.btnEditText = '提 交'
+				self.showForm = false
+				self.$notify({ title: '成功', message: '编辑成功', type: 'success' })
+				self.getList()
+			}, function (error) {
+				self.editLoading = false
+				self.btnEditText = '提 交'
+				self.showForm = false
+				self.$notify({ title: '失败', message: '提交失败'+error, type: 'error' })
+			})
+		},
 		// 列表获取
 		getList:function(){
+			this.loading = true
 			var self = this
 			var query = self.query()
 		  query.equalTo('type', 'img')
@@ -71,6 +115,7 @@ export default {
 					array.push(value)
 				})
 				self.imgs = array
+				self.loading = false
 			})
 		},
 		submiting:function(bth){

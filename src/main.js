@@ -27,11 +27,11 @@ const routes = [
     component: Home,
     name: 'Home',
     children: [
-      { path: '/', component: Table, name: 'List' },
-      { path: '/type', component: Type, name: 'Type' },
-      { path: '/img', component: Img, name: 'Img' },
-      { path: '/text', component: Text, name: 'Text' },
-      { path: '/link', component: Link, name: 'Link' }
+      { path: '/', component: Table, name: '列表' },
+      { path: '/type', component: Type, name: '分类' },
+      { path: '/img', component: Img, name: '图像' },
+      { path: '/text', component: Text, name: '文本' },
+      { path: '/link', component: Link, name: '网页' }
     ]
   }
 ]
