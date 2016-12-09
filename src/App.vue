@@ -58,7 +58,7 @@ export default {
 		/*background: url(assets/bg1.jpg) center !important;
 		background-size: cover;*/
 		background: #1F2D3D;
-		font-family: Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei, SimSun, sans-serif;
+		font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;;
 		font-weight: 400;
 		-webkit-font-smoothing: antialiased;
 	}
@@ -78,5 +78,8 @@ export default {
 	.el-menu-item [class^=fa] {
 		vertical-align: baseline;
 		margin-right: 10px;
+	}
+	textarea{
+		min-height: 100px;
 	}
 </style>

@@ -1,18 +1,21 @@
 <template>
 	<section>
-		<el-table :data="tableData" highlight-current-row v-loading="listLoading" style="width: 100%;">
-			<el-table-column type="index" width="100">
-			</el-table-column>
-			<el-table-column prop="name" label="姓名" width="100" sortable>
-			</el-table-column>
-			<el-table-column prop="content" label="内容" sortable>
-			</el-table-column>
-			<el-table-column inline-template :context="_self" label="操作" width="100">
-				<span>
-				<el-button type="text" size="small" @click="handleDel(row)">删除</el-button>
-			</span>
-			</el-table-column>
-		</el-table>
+		<el-row v-loading="loading">
+		  <el-col :span="8" v-for="(text, index) in texts">
+		    <el-card :body-style="{ padding: '0px' }">
+					<div style="padding: 14px;min-height:200px;">
+		        <span>{{ text.content }}</span>
+					</div>
+		      <div style="padding: 14px;">
+		        <div class="bottom clearfix">
+						  <time class="time">{{ text.time }}</time>
+		          <el-button type="text" class="button" @click="handleDel(text.id)">删除</el-button>
+		          <el-button type="text" class="button" @click="handleEdit(text)" style="margin-right:10px;">编辑</el-button>
+		        </div>
+		      </div>
+		    </el-card>
+		  </el-col>
+		</el-row>
 
 		<!--分页-->
 		<el-col :span="24" class="toolbar" style="padding-bottom:10px;margin-top:30px;">
@@ -20,6 +23,18 @@
 				:total="count" style="float:right">
 			</el-pagination>
 		</el-col>
+
+		<el-dialog title="编辑" v-model="showForm" :close-on-click-modal="false">
+			<el-form label-width="80px" ref="editForm">
+				<el-form-item label="描述">
+					<el-input type="textarea" v-model="content" placeholder="描述"></el-input>
+				</el-form-item>
+			</el-form>
+			<div slot="footer" class="dialog-footer">
+				<el-button @click.native="showForm = false">取 消</el-button>
+				<el-button type="primary" @click.native="editSubmit" :loading="editLoading">{{ btnEditText }}</el-button>
+			</div>
+		</el-dialog>
 	</section>
 </template>
 
@@ -29,9 +44,13 @@ import NProgress from 'nprogress'
 export default {
 	data() {
 		return {
-			listLoading:false,
-			tableData: [],
-			count:0
+			texts: [],
+			count:0,
+			loading: true,
+			showForm: false,
+			content: '',
+			editLoading: false,
+			btnEditText: '提 交'
 		};
 	},
 	created(){
@@ -50,8 +69,34 @@ export default {
 			this.tablePage = page
 			this.getList()
 		},
+		handleEdit:function(text){
+			this.showForm = true
+			this.content = text.content
+			this.textId = text.id
+		},
+		editSubmit:function(){
+			var self = this;
+			// 设置提交状态
+			self.editLoading = true
+			self.btnEditText = '提交中'
+			var box = new self.boxUpdate(this.textId)
+			box.set('content', self.content)
+			box.save().then(function (todo) {
+				self.editLoading = false
+				self.btnEditText = '提 交'
+				self.showForm = false
+				self.$notify({ title: '成功', message: '编辑成功', type: 'success' })
+				self.getList()
+			}, function (error) {
+				self.editLoading = false
+				self.btnEditText = '提 交'
+				self.showForm = false
+				self.$notify({ title: '失败', message: '提交失败'+error, type: 'error' })
+			})
+		},
 		// 列表获取
 		getList:function(){
+			this.loading = true
 			var self = this
 			var query = self.query()
 		  query.equalTo('type', 'text')
@@ -68,7 +113,8 @@ export default {
 					value['id'] = val.id
 					array.push(value)
 				})
-				self.tableData = array
+				self.texts = array
+				self.loading = false
 			})
 		},
 		submiting:function(bth){
@@ -86,13 +132,13 @@ export default {
 			this.editFormVisible = false
 			this.$notify(message)
 		},
-		handleDel:function(row){
+		handleDel:function(id){
 			var self=this
 			this.$confirm('确认删除该记录吗?', '提示', {
 				type: 'warning'
 			}).then(() => {
 				self.submiting(0)
-				var box = new self.boxUpdate(row.id)
+				var box = new self.boxUpdate(id)
 				box.destroy().then(function (success) {
 					console.log("a")
 					self.end({ title: '成功', message: '删除成功', type: 'success' })
@@ -129,6 +175,7 @@ export default {
 		max-width: 100%;
 		max-height: 100%;
 		display: block;
+    margin: 0 auto;
 	}
 
 	.clearfix:before,
