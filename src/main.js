@@ -12,6 +12,7 @@ import Type from './components/Type.vue'
 import Img from './components/Img.vue'
 import Text from './components/Text.vue'
 import Link from './components/Link.vue'
+import Tag from './components/Tag.vue'
 
 Vue.use(ElementUI)
 Vue.use(VueRouter)
@@ -31,7 +32,8 @@ const routes = [
       { path: '/type', component: Type, name: '分类' },
       { path: '/img', component: Img, name: '图像' },
       { path: '/text', component: Text, name: '文本' },
-      { path: '/link', component: Link, name: '网页' }
+      { path: '/link', component: Link, name: '网页' },
+      { path: '/tag', component: Tag, name: '标签' }
     ]
   }
 ]

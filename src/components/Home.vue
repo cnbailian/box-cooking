@@ -13,6 +13,7 @@
 					@close="handleclose" @select="handleselect" theme="dark" unique-opened router>
 					<el-menu-item index="/"><i class="fa fa-th-list"></i>列表</el-menu-item>
 					<el-menu-item index="/type"><i class="fa fa-table"></i>分类</el-menu-item>
+					<el-menu-item index="/tag"><i class="fa fa-table"></i>标签</el-menu-item>
 				</el-menu>
 			</aside>
 			<!--</el-col>-->

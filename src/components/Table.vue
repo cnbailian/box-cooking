@@ -20,11 +20,14 @@
 			<el-table :data="tableData" highlight-current-row v-loading="listLoading" style="width: 100%;">
 				<el-table-column type="index" width="100">
 				</el-table-column>
-				<el-table-column prop="name" label="姓名" width="100" sortable>
-				</el-table-column>
 				<el-table-column prop="type" label="类型" width="100" sortable>
 				</el-table-column>
 				<el-table-column prop="content" label="内容" sortable>
+				</el-table-column>
+				<el-table-column prop="tag" label="标签" width="100" sortable>
+					<el-tag v-for="tag in tags" :closable="true" :type="tag.type" :key="tag" :close-transition="false" @close="handleClose(tag)">
+						{{tag.name}}
+					</el-tag>
 				</el-table-column>
 				<el-table-column inline-template :context="_self" label="操作" width="100">
 					<span>
@@ -64,13 +67,17 @@
 				<el-form-item label="内容">
 					<el-input type="textarea" v-model="editForm.content" :placeholder="placeholder"></el-input>
 				</el-form-item>
+				<el-form-item label="标签">
+					<el-tag v-for="tags in tags">{{ tags }}</el-tag>
+					<i class="el-icon-plus" style="cursor: progress;" @click="addTag"></i>
+				</el-form-item>
 				<el-form-item label="描述" v-show="showImg">
 					<el-input type="textarea" v-model="description" placeholder="描述"></el-input>
 				</el-form-item>
 			</el-form>
 			<div slot="footer" class="dialog-footer">
 				<el-button @click.native="editFormVisible = false">取 消</el-button>
-				<el-button type="primary" @click.native="editSubmit" :loading="editLoading">{{btnEditText}}</el-button>
+				<el-button type="primary" @click.native="editSubmit" :loading="editLoading">{{ btnEditText }}</el-button>
 			</div>
 		</el-dialog>
 	</section>
@@ -97,7 +104,8 @@
 				editLoading:false, // 提交状态
 				btnEditText:'提 交', // 提交按钮内容
 				tableData: [], // 默认列表内容
-				listLoading:true // 列表加载
+				listLoading:true, // 列表加载
+				tags: ''
      	}
     },
 		created(){
@@ -106,6 +114,9 @@
 			this.getList()
 		},
     methods: {
+			addTag() {
+				this.tags = ['tag']
+			},
 			// 类型切换
 			handleType(type) {
 				this.showImg = false
