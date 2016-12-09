@@ -19,7 +19,7 @@
 		 },
      methods: {
 			 jump:function(row){
-				 this.$router.push('/'+row.name)
+				 this.$router.push('/'+row.value)
 			 }
 		 }
 	 }

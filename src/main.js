@@ -27,7 +27,7 @@ const routes = [
     component: Home,
     name: 'Home',
     children: [
-      { path: '/', component: Table, name: 'Table' },
+      { path: '/', component: Table, name: 'List' },
       { path: '/type', component: Type, name: 'Type' },
       { path: '/img', component: Img, name: 'Img' },
       { path: '/text', component: Text, name: 'Text' },

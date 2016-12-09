@@ -49,10 +49,12 @@
 					<el-input v-model="editForm.name" auto-complete="off"></el-input>
 				</el-form-item>
 				<el-form-item label="类型">
-					<el-input v-model="editForm.type"></el-input>
+					<el-select v-model="editForm.type" placeholder="请选择" @change="handleType">
+				    <el-option v-for="item in options" :label="item.label" :value="item.value"></el-option>
+				  </el-select>
 				</el-form-item>
 				<el-form-item label="内容">
-					<el-input type="textarea" v-model="editForm.content"></el-input>
+					<el-input type="textarea" v-model="editForm.content" :placeholder="placeholder"></el-input>
 				</el-form-item>
 			</el-form>
 			<div slot="footer" class="dialog-footer">
@@ -80,9 +82,20 @@
 				editForm: {
 					id:0,
 					name: '',
-					type: '',
+					type: 'text',
 					content: '',
 				},
+				placeholder: '请输入文本内容',
+				options: [{
+          value: 'text',
+          label: '文本'
+        }, {
+          value: 'img',
+          label: '图像'
+        }, {
+          value: 'link',
+          label: '网页'
+        }],
 				editLoading:false,
 				btnEditText:'提 交',
 				tableData: [],
@@ -95,6 +108,19 @@
 			this.getList()
 		},
     methods: {
+			handleType(type) {
+				switch(type){
+					case 'img':
+						this.placeholder = '请输入图像网络地址'
+						break;
+					case 'link':
+						this.placeholder = '请输入链接地址'
+						break;
+					case 'text':
+						this.placeholder = '请输入文本内容'
+						break;
+				}
+			},
 			// 设置size
 			sizeChange:function(size){
 				this.tableSize = size

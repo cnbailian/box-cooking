@@ -11,8 +11,8 @@
 			<aside style="width:230px;">
 				<el-menu style="border-top: 1px solid #475669;" :default-active="defaultActive" class="el-menu-vertical-demo" @open="handleopen"
 					@close="handleclose" @select="handleselect" theme="dark" unique-opened router>
-					<el-menu-item index="/"><i class="fa fa-line-chart"></i>table</el-menu-item>
-					<el-menu-item index="/type"><i class="fa fa-line-chart"></i>type</el-menu-item>
+					<el-menu-item index="/"><i class="fa fa-th-list"></i>列表</el-menu-item>
+					<el-menu-item index="/type"><i class="fa fa-table"></i>分类</el-menu-item>
 				</el-menu>
 			</aside>
 			<!--</el-col>-->

@@ -3,13 +3,16 @@ module.exports = function(Vue)
 {
   const type = [
     {
-      'name': 'img'
+      value: 'img',
+      name: '图像'
     },
     {
-      'name': 'text'
+      value: 'text',
+      name: '文本'
     },
     {
-      'name': 'link'
+      value: 'link',
+      name: '网页'
     }
   ]
   Vue.prototype.typeList = type
