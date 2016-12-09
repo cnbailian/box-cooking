@@ -14,7 +14,11 @@ module.exports = function(Vue)
   // 构建对象
   Vue.prototype.box = AV.Object.extend(className)
   // 构建文件对象
-  Vue.prototype.file = function(name, url){
+  Vue.prototype.file = function(name, obj){
+    return new AV.File(name, obj)
+  }
+  // 构建网络文件对象
+  Vue.prototype.networkFile = function(name, url){
     return AV.File.withURL(name, url)
   }
   // 构建更新对象

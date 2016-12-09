@@ -71,7 +71,7 @@ export default {
 			box.set('content',this.content)
 			if (this.value == 'img') {
 				var fileName = this.content.replace(/^.*[\\\/]/, '')
-				var file = this.file(fileName, this.content)
+				var file = this.networkFile(fileName, this.content)
 				file.save().then(function(file) {
 					box.set('content', file.url())
 				}, function(error) {

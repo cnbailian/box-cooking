@@ -42,7 +42,7 @@
 			</el-pagination>
 		</el-col>
 
-		<!--编辑界面-->
+		<!--表单-->
 		<el-dialog :title="editFormTtile" v-model="editFormVisible" :close-on-click-modal="false">
 			<el-form :model="editForm" label-width="80px" ref="editForm">
 				<el-form-item label="姓名" prop="name">
@@ -50,8 +50,16 @@
 				</el-form-item>
 				<el-form-item label="类型">
 					<el-select v-model="editForm.type" placeholder="请选择" @change="handleType">
-				    <el-option v-for="item in options" :label="item.label" :value="item.value"></el-option>
+				    <el-option v-for="item in options" :label="item.name" :value="item.value"></el-option>
 				  </el-select>
+				</el-form-item>
+				<el-form-item label="图片上传" v-show="showUpload">
+					<el-card :body-style="{ padding: '0px' }" style="max-height:300px;"  v-show="showThumbnail">
+						<img :src="thumbnail" class="image">
+					</el-card>
+					<el-upload action="/" :before-upload="handleUplode">
+					  <el-button size="small" type="primary">点击上传</el-button>
+					</el-upload>
 				</el-form-item>
 				<el-form-item label="内容">
 					<el-input type="textarea" v-model="editForm.content" :placeholder="placeholder"></el-input>
@@ -72,30 +80,17 @@
   export default {
     data() {
       return {
-				formInline: {
-					content: ''
-				},
-				count:0,
-				editFormVisible:false,//编辑界面显是否显示
-				editFormTtile:'编辑',//编辑界面标题
-				//默认界面数据
-				editForm: {
-					id:0,
-					name: '',
-					type: 'text',
-					content: '',
-				},
-				placeholder: '请输入文本内容',
-				options: [{
-          value: 'text',
-          label: '文本'
-        }, {
-          value: 'img',
-          label: '图像'
-        }, {
-          value: 'link',
-          label: '网页'
-        }],
+				formInline: { content: '' }, // 工具条
+				count:0, // 分页总数默认值
+				editFormVisible:false, // 表单页面show开关
+				editFormTtile:'编辑', // 表单标题
+				editForm: {}, // 表单内容默认值
+				placeholder: '请输入文本内容',  // 内容的默认文本
+				showUpload: false, // 上传show开关
+				showThumbnail: false, // 缩略图show开关
+				thumbnail: '', // 默认缩略图
+				// 默认类别
+				options: this.typeList,
 				editLoading:false,
 				btnEditText:'提 交',
 				tableData: [],
@@ -108,9 +103,12 @@
 			this.getList()
 		},
     methods: {
+			// 类型切换
 			handleType(type) {
+				this.showUpload = false
 				switch(type){
 					case 'img':
+						this.showUpload = true
 						this.placeholder = '请输入图像网络地址'
 						break;
 					case 'link':
@@ -121,6 +119,17 @@
 						break;
 				}
 			},
+      handleUplode(file) {
+				this.currentFile = file
+				this.showThumbnail = true
+				var reader = new FileReader();
+        reader.readAsDataURL(file);
+				var self = this
+        reader.onload = function(e){
+            self.thumbnail = this.result
+        }
+				return false
+      },
 			// 设置size
 			sizeChange:function(size){
 				this.tableSize = size
@@ -156,24 +165,35 @@
 			},
 			// 表单赋值
 			setForm:function(row){
-				this.editFormVisible=true
+				this.showUpload = false
+				this.showThumbnail = false
+				this.editFormVisible = true
 				if (row) {
-					this.editFormTtile='编辑'
-					this.editForm.id=row.id
-					this.editForm.name=row.name
-					this.editForm.type=row.type
-					this.editForm.content=row.content
+					this.editFormTtile = '编辑'
+					this.editForm = {
+						id: row.id,
+						name: row.name,
+						type: row.type,
+						content: row.content
+					}
+					if (row.type == 'img') {
+						this.showUpload = true
+						this.showThumbnail = true
+						this.thumbnail = row.content
+					}
 				}else{
-					this.editFormTtile='新增'
-					this.editForm.id=0
-					this.editForm.name=this.name
-					this.editForm.type='text'
-					this.editForm.content=''
+					this.editFormTtile = '新增'
+					this.editForm = {
+						id: 0,
+						name: this.name,
+						type: 'text',
+						content: ''
+					}
 				}
 			},
 			// 提交中
 			submiting:function(bth){
-				this.editLoading=true
+				this.editLoading = true
 				NProgress.start()
 				if (bth) {
 					this.btnEditText='提交中'
@@ -181,15 +201,15 @@
 			},
 			// 提交完成
 			end:function(message){
-				this.editLoading=false
+				this.editLoading = false
 				NProgress.done()
-				this.btnEditText='提 交'
+				this.btnEditText = '提 交'
 				this.editFormVisible = false
 				this.$notify(message)
 			},
 			//删除记录
 			handleDel:function(row){
-				var self=this
+				var self = this
 				this.$confirm('确认删除该记录吗?', '提示', {
 					type: 'warning'
 				}).then(() => {
@@ -206,23 +226,23 @@
 			},
 			//提交
 			editSubmit:function(){
-				var self=this;
-				self.$refs.editForm.validate((valid)=>{
-					if(valid){
-						self.submiting(1)
-						var box = (self.editForm.id === 0) ? new self.box() : new self.boxUpdate(self.editForm.id)
-						delete self.editForm.id
-						if (self.editForm.type == 'img') {
-							var content = self.editForm.content
-							var fileName = content.replace(/^.*[\\\/]/, '')
-					    var file = self.file(fileName, content)
-					    file.save().then(function(file) {
-								console.log(file)
-					      self.editForm.content = file.url()
-					    }, function(error) {
-					      console.error(error)
-					    })
-						}
+				var self = this;
+				// 设置提交状态
+				self.submiting(1)
+				// 根据提交类型实例化leancloud
+				var box = (self.editForm.id === 0) ? new self.box() : new self.boxUpdate(self.editForm.id)
+				delete self.editForm.id
+				// 图像特殊处理
+				if (self.editForm.type == 'img') {
+					if (self.currentFile) {
+						var fileName = self.currentFile.name
+						var file = self.file(fileName, self.currentFile)
+					}else{
+						var fileName = self.editForm.content.replace(/^.*[\\\/]/, '')
+				    var file = self.networkFile(fileName, self.editForm.content)
+					}
+			    file.save().then(function(file) {
+			      self.editForm.content = file.url()
 						for (let key in self.editForm) {
 						  box.set(key, self.editForm[key])
 						}
@@ -232,8 +252,10 @@
 					  }, function (error) {
 							self.end({ title: '失败', message: '提交失败'+error, type: 'error' })
 					  })
-					}
-				})
+			    }, function(error) {
+			      console.error(error)
+			    })
+				}
 			}
 
     }

@@ -47,9 +47,6 @@
 				this.currentPathName=to.name
 			}
 		},
-		created(){
-			console.log(this.default)
-		},
     methods: {
       onSubmit() {
         console.log('submit!');
