@@ -24,11 +24,6 @@
 				</el-table-column>
 				<el-table-column prop="content" label="内容" sortable>
 				</el-table-column>
-				<el-table-column prop="tag" label="标签" width="100" sortable>
-					<el-tag v-for="tag in tags" :closable="true" :type="tag.type" :key="tag" :close-transition="false" @close="handleClose(tag)">
-						{{tag.name}}
-					</el-tag>
-				</el-table-column>
 				<el-table-column inline-template :context="_self" label="操作" width="100">
 					<span>
 						<el-button type="text" size="small" @click="setForm(row)">编辑</el-button>
@@ -68,8 +63,12 @@
 					<el-input type="textarea" v-model="editForm.content" :placeholder="placeholder"></el-input>
 				</el-form-item>
 				<el-form-item label="标签">
-					<el-tag v-for="tags in tags">{{ tags }}</el-tag>
-					<i class="el-icon-plus" style="cursor: progress;" @click="addTag"></i>
+					<div style="margin-right:10px;float:left;" v-for="(tag, index) in tags">
+						<el-tag :closable="true" :type="tag.type" :close-transition="false" @close="handleDelTag(editForm.id, index)">
+						{{tag.name}}
+						</el-tag>
+					</div>
+					<el-button type="primary" icon="plus" size="mini" @click="tagForm"></el-button>
 				</el-form-item>
 				<el-form-item label="描述" v-show="showImg">
 					<el-input type="textarea" v-model="description" placeholder="描述"></el-input>
@@ -78,6 +77,23 @@
 			<div slot="footer" class="dialog-footer">
 				<el-button @click.native="editFormVisible = false">取 消</el-button>
 				<el-button type="primary" @click.native="editSubmit" :loading="editLoading">{{ btnEditText }}</el-button>
+			</div>
+		</el-dialog>
+		<!--tag表单-->
+		<el-dialog title="增加标签" v-model="showTag" :close-on-click-modal="false">
+			<el-form label-width="80px" ref="editForm">
+				<el-form-item label="主题">
+					<el-select v-model="tagTypeValue">
+						<el-option v-for="type in tagType" :label="type.label" :value="type.value"></el-option>
+					</el-select>
+				</el-form-item>
+				<el-form-item label="名称">
+					<el-input v-model="tagValue" auto-complete="off"></el-input>
+				</el-form-item>
+			</el-form>
+			<div slot="footer" class="dialog-footer">
+				<el-button @click.native="showTag = false">取 消</el-button>
+				<el-button type="primary" @click.native="addTag">添加</el-button>
 			</div>
 		</el-dialog>
 	</section>
@@ -101,11 +117,34 @@
 				thumbnail: '', // 默认缩略图
 				description: '', // 默认图片描述
 				options: this.typeList,	// 默认类别
-				editLoading:false, // 提交状态
-				btnEditText:'提 交', // 提交按钮内容
+				editLoading: false, // 提交状态
+				btnEditText: '提 交', // 提交按钮内容
 				tableData: [], // 默认列表内容
-				listLoading:true, // 列表加载
-				tags: ''
+				listLoading: true, // 列表加载
+				showTag: false, // tag表单show开关
+				tagValue: '', // tag默认内容
+				tags: [], // 默认tag列表
+				tagTypeValue: '', // 默认tag主题
+				// tag主题列表
+				tagType: [{
+          value: '',
+          label: '默认'
+        }, {
+          value: 'primary',
+          label: 'primary'
+        }, {
+          value: 'gray',
+          label: 'gray'
+        }, {
+          value: 'success',
+          label: 'success'
+        }, {
+          value: 'warning',
+          label: 'warning'
+        }, {
+          value: 'anger',
+          label: 'anger'
+        }]
      	}
     },
 		created(){
@@ -114,8 +153,21 @@
 			this.getList()
 		},
     methods: {
+			tagForm() {
+				this.showTag = true
+				this.tagValue = ''
+			},
 			addTag() {
-				this.tags = ['tag']
+				this.showTag = false
+				this.tags.push({ type: this.tagTypeValue, name: this.tagValue })
+			},
+			handleDelTag(id, index) {
+				var box = new this.boxUpdate(id)
+				// delete 不会删除数组元素的其他值 如length
+				// delete this.tags[index]
+				this.tags.splice(index, 1);
+				box.set('tags', this.tags)
+				box.save()
 			},
 			// 类型切换
 			handleType(type) {
@@ -190,14 +242,16 @@
 						id: row.id,
 						name: row.name,
 						type: row.type,
-						content: row.content
+						content: row.content,
 					}
+					this.tags = row.tags
 					if (row.type == 'img') {
 						this.showImg = true
 						this.showThumbnail = true
 						this.thumbnail = row.content
 					}
 				}else{
+					this.tags = []
 					this.editFormTtile = '新增'
 					this.editForm = {
 						id: 0,
@@ -248,16 +302,18 @@
 				// 根据提交类型实例化leancloud
 				var box = (self.editForm.id === 0) ? new self.box() : new self.boxUpdate(self.editForm.id)
 				delete self.editForm.id
+				// 参数放入
+				for (let key in self.editForm) {
+					box.set(key, self.editForm[key])
+				}
+				box.set('tags', this.tags)
 				// 图像特殊处理
 				if (self.editForm.type == 'img') {
 					self.editForm.description = self.description
 					var fileName = self.currentFile ? self.currentFile.name : self.editForm.content.replace(/^.*[\\\/]/, '')
 					var file = self.currentFile ? self.file(fileName, self.currentFile) :  self.networkFile(fileName, self.editForm.content)
 			    file.save().then(function(file) {
-			      self.editForm.content = file.url()
-						for (let key in self.editForm) {
-						  box.set(key, self.editForm[key])
-						}
+						box.set('content', file.url())
 						box.save().then(function (todo) {
 							self.end({ title: '成功', message: '提交成功', type: 'success' })
 							self.getList()
@@ -267,6 +323,13 @@
 			    }, function(error) {
 			      console.error(error)
 			    })
+				}else{
+					box.save().then(function (todo) {
+						self.end({ title: '成功', message: '提交成功', type: 'success' })
+						self.getList()
+					}, function (error) {
+						self.end({ title: '失败', message: '提交失败'+error, type: 'error' })
+					})
 				}
 			}
 
