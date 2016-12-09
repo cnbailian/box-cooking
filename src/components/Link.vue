@@ -5,12 +5,15 @@
 			</el-table-column>
 			<el-table-column prop="name" label="姓名" width="100" sortable>
 			</el-table-column>
-			<el-table-column prop="content" label="内容" sortable>
-			</el-table-column>
+			<el-table-column inline-template label="姓名">
+				<div>
+					<a target="_blank" :href="row">{{row.content}}</a>
+	      </div>
+	    </el-table-column>
 			<el-table-column inline-template :context="_self" label="操作" width="100">
 				<span>
-				<el-button type="text" size="small" @click="handleDel(row)">删除</el-button>
-			</span>
+					<el-button type="text" size="small" @click="handleDel(row)">删除</el-button>
+				</span>
 			</el-table-column>
 		</el-table>
 
@@ -52,6 +55,7 @@ export default {
 		},
 		// 列表获取
 		getList:function(){
+			this.listLoading = true
 			var self = this
 			var query = self.query()
 		  query.equalTo('type', 'link')
@@ -69,6 +73,7 @@ export default {
 					array.push(value)
 				})
 				self.tableData = array
+				self.listLoading = false
 			})
 		},
 		submiting:function(bth){

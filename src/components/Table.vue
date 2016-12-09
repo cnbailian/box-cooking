@@ -28,9 +28,9 @@
 				</el-table-column>
 				<el-table-column inline-template :context="_self" label="操作" width="100">
 					<span>
-					<el-button type="text" size="small" @click="setForm(row)">编辑</el-button>
-					<el-button type="text" size="small" @click="handleDel(row)">删除</el-button>
-				</span>
+						<el-button type="text" size="small" @click="setForm(row)">编辑</el-button>
+						<el-button type="text" size="small" @click="handleDel(row)">删除</el-button>
+					</span>
 				</el-table-column>
 			</el-table>
 		</template>
