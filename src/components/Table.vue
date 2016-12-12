@@ -244,7 +244,7 @@
 						type: row.type,
 						content: row.content,
 					}
-					this.tags = row.tags
+					this.tags = row.tags || []
 					if (row.type == 'img') {
 						this.showImg = true
 						this.showThumbnail = true
