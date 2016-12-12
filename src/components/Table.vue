@@ -109,6 +109,11 @@
 	import NProgress from 'nprogress'
 
   export default {
+	  watch: {
+	    '$route': function (route) {
+				this.isTag()
+	    }
+	  },
     data() {
       return {
 				formInline: { content: '' }, // 工具条
