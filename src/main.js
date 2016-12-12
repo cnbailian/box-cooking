@@ -33,7 +33,8 @@ const routes = [
       { path: '/img', component: Img, name: '图像' },
       { path: '/text', component: Text, name: '文本' },
       { path: '/link', component: Link, name: '网页' },
-      { path: '/tag', component: Tag, name: '标签' }
+      { path: '/tag', component: Tag, name: '标签' },
+      { path: '/tag/:name', component: Table, name: '筛选列表' },
     ]
   }
 ]

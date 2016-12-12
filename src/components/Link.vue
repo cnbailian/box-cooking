@@ -6,9 +6,7 @@
 			<el-table-column prop="name" label="姓名" width="100" sortable>
 			</el-table-column>
 			<el-table-column inline-template label="姓名">
-				<div>
-					<a target="_blank" :href="row">{{row.content}}</a>
-	      </div>
+				<div><a target="_blank" :href="row">{{row.content}}</a></div>
 	    </el-table-column>
 			<el-table-column inline-template :context="_self" label="操作" width="100">
 				<span>
@@ -57,11 +55,11 @@ export default {
 		getList:function(){
 			this.listLoading = true
 			var self = this
-			var query = self.query()
+			var query = self.query('main')
 		  query.equalTo('type', 'link')
 			query.count().then(function (count) {
 				self.count = count
-			});
+			})
 			query.limit(this.tableSize);
 			query.skip((this.tablePage - 1) * this.tableSize);
 			query.find().then(function (result) {
@@ -97,18 +95,16 @@ export default {
 				type: 'warning'
 			}).then(() => {
 				self.submiting(0)
-				var box = new self.boxUpdate(row.id)
+				var box = new self.updateObj('main', row.id)
 				box.destroy().then(function (success) {
-					console.log("a")
 					self.end({ title: '成功', message: '删除成功', type: 'success' })
 					self.getList()
 				}, function (error) {
-					console.log(error)
 					self.end({ title: '失败', message: '删除失败', type: 'error' })
-				});
+				})
 			}).catch((e) => {
 				console.log(e)
-			});
+			})
 		},
 	}
 }

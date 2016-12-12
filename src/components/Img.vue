@@ -52,7 +52,7 @@ export default {
 			description: '',
 			editLoading: false,
 			btnEditText: '提 交'
-		};
+		}
 	},
 	created(){
 		this.tableSize = 10
@@ -80,7 +80,7 @@ export default {
 			// 设置提交状态
 			self.editLoading = true
 			self.btnEditText = '提交中'
-			var box = new self.boxUpdate(this.imgId)
+			var box = new self.updateObj('main', this.imgId)
 			box.set('description', self.description)
 			box.save().then(function (todo) {
 				self.editLoading = false
@@ -99,11 +99,11 @@ export default {
 		getList:function(){
 			this.loading = true
 			var self = this
-			var query = self.query()
+			var query = self.query('main')
 		  query.equalTo('type', 'img')
 			query.count().then(function (count) {
 				self.count = count
-			});
+			})
 			query.limit(this.tableSize);
 			query.skip((this.tablePage - 1) * this.tableSize);
 			query.find().then(function (result) {
@@ -139,19 +139,17 @@ export default {
 				type: 'warning'
 			}).then(() => {
 				self.submiting(0)
-				var box = new self.boxUpdate(id)
+				var box = new self.updateObj('main', id)
 				box.destroy().then(function (success) {
-					console.log("a")
 					self.end({ title: '成功', message: '删除成功', type: 'success' })
 					self.getList()
 				}, function (error) {
-					console.log(error)
 					self.end({ title: '失败', message: '删除失败', type: 'error' })
-				});
+				})
 			}).catch((e) => {
 				console.log(e)
-			});
-		},
+			})
+		}
 	}
 }
 </script>

@@ -24,6 +24,11 @@
 				</el-table-column>
 				<el-table-column prop="content" label="内容" sortable>
 				</el-table-column>
+				<el-table-column label="tag" inline-template width="200">
+					<div v-for="(tag, index) in row.tags" class="tags">
+		      	<el-tag :type="tag.type">{{tag.name}}</el-tag>
+					</div>
+		    </el-table-column>
 				<el-table-column inline-template :context="_self" label="操作" width="100">
 					<span>
 						<el-button type="text" size="small" @click="setForm(row)">编辑</el-button>
@@ -63,7 +68,7 @@
 					<el-input type="textarea" v-model="editForm.content" :placeholder="placeholder"></el-input>
 				</el-form-item>
 				<el-form-item label="标签">
-					<div style="margin-right:10px;float:left;" v-for="(tag, index) in tags">
+					<div class="tags" v-for="(tag, index) in tags">
 						<el-tag :closable="true" :type="tag.type" :close-transition="false" @close="handleDelTag(editForm.id, index)">
 						{{tag.name}}
 						</el-tag>
@@ -125,34 +130,18 @@
 				tagValue: '', // tag默认内容
 				tags: [], // 默认tag列表
 				tagTypeValue: '', // 默认tag主题
-				// tag主题列表
-				tagType: [{
-          value: '',
-          label: '默认'
-        }, {
-          value: 'primary',
-          label: 'primary'
-        }, {
-          value: 'gray',
-          label: 'gray'
-        }, {
-          value: 'success',
-          label: 'success'
-        }, {
-          value: 'warning',
-          label: 'warning'
-        }, {
-          value: 'anger',
-          label: 'anger'
-        }]
+				tagType: this.tagTypeList // tag主题列表
      	}
     },
 		created(){
 			this.tableSize = 10
 			this.tablePage = 1
-			this.getList()
+			this.isTag()
 		},
     methods: {
+      filterTag(value, row) {
+        return row.tag === value;
+      },
 			tagForm() {
 				this.showTag = true
 				this.tagValue = ''
@@ -162,7 +151,7 @@
 				this.tags.push({ type: this.tagTypeValue, name: this.tagValue })
 			},
 			handleDelTag(id, index) {
-				var box = new this.boxUpdate(id)
+				var box = new this.boxUpdate('main', id)
 				// delete 不会删除数组元素的其他值 如length
 				// delete this.tags[index]
 				this.tags.splice(index, 1);
@@ -199,27 +188,40 @@
 			// 设置size
 			sizeChange:function(size){
 				this.tableSize = size
-				this.getList()
+				this.isTag()
 			},
 			// current
 			current:function(page){
 				this.tablePage = page
-				this.getList()
+				this.isTag()
 			},
-			// 列表获取
-			getList:function(content = false){
+			isTag:function(){
+				if (this.$route.params.name) {
+					var tagQuery = this.query('tag')
+					var self = this
+					tagQuery.get(this.$route.params.name).then(function (todo) {
+						var where = { type: todo.attributes.type, name: todo.attributes.tag }
+						self.getList(false, where)
+					})
+				}else{
+					this.getList()
+				}
+			},
+			// 标签判断列表获取
+			getList:function(content = false, where = false){
 				this.listLoading = true
 				var self = this
-				var query = self.query()
-  			query.descending('createdAt');
+				var query = self.query('main')
+  			query.descending('createdAt')
 				query.count().then(function (count) {
 					self.count = count
-			  });
-				query.limit(this.tableSize);
-			  query.skip((this.tablePage - 1) * this.tableSize);
-				if (content) {
-					query.contains('content', content);
-				}
+			  })
+				query.limit(this.tableSize)
+			  query.skip((this.tablePage - 1) * this.tableSize)
+				if (where)
+					query.containsAll('tags', [where])
+				if (content)
+					query.contains('content', content)
 			  query.find().then(function (result) {
 					var array = []
 					result.forEach(function(val){
@@ -284,23 +286,23 @@
 					type: 'warning'
 				}).then(() => {
 					self.submiting(0)
-					var box = new self.boxUpdate(row.id)
+					var box = new self.boxUpdate('main', row.id)
 					box.destroy().then(function (success) {
 						self.end({ title: '成功', message: '删除成功', type: 'success' })
 						self.getList()
 				  }, function (error) {
 						self.end({ title: '失败', message: '删除失败', type: 'error' })
-				  });
+				  })
 				}).catch(() => {
 				})
 			},
 			//提交
 			editSubmit:function(){
-				var self = this;
+				var self = this
 				// 设置提交状态
 				self.submiting(1)
 				// 根据提交类型实例化leancloud
-				var box = (self.editForm.id === 0) ? new self.box() : new self.boxUpdate(self.editForm.id)
+				var box = (self.editForm.id === 0) ? new self.box() : new self.updateObj('main', self.editForm.id)
 				delete self.editForm.id
 				// 参数放入
 				for (let key in self.editForm) {
@@ -345,5 +347,10 @@
 	.toolbar {
 		background: #fff;
 		padding: 10px 10px 0px 10px;
+	}
+
+	.tags {
+		margin-right:10px;
+		float:left;
 	}
 </style>

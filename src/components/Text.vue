@@ -79,7 +79,7 @@ export default {
 			// 设置提交状态
 			self.editLoading = true
 			self.btnEditText = '提交中'
-			var box = new self.boxUpdate(this.textId)
+			var box = new self.updateObj('main', this.textId)
 			box.set('content', self.content)
 			box.save().then(function (todo) {
 				self.editLoading = false
@@ -98,11 +98,11 @@ export default {
 		getList:function(){
 			this.loading = true
 			var self = this
-			var query = self.query()
+			var query = self.query('main')
 		  query.equalTo('type', 'text')
 			query.count().then(function (count) {
 				self.count = count
-			});
+			})
 			query.limit(this.tableSize);
 			query.skip((this.tablePage - 1) * this.tableSize);
 			query.find().then(function (result) {
