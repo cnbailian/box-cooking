@@ -98,7 +98,7 @@
 			</el-form>
 			<div slot="footer" class="dialog-footer">
 				<el-button @click.native="showTag = false">取 消</el-button>
-				<el-button type="primary" @click.native="addTag">添加</el-button>
+				<el-button type="primary" @click.native="handleAddTag">添加</el-button>
 			</div>
 		</el-dialog>
 	</section>
@@ -151,12 +151,12 @@
 				this.showTag = true
 				this.tagValue = ''
 			},
-			addTag() {
+			handleAddTag() {
 				this.showTag = false
 				this.tags.push({ type: this.tagTypeValue, name: this.tagValue })
 			},
 			handleDelTag(id, index) {
-				var box = new this.boxUpdate('main', id)
+				var box = new this.updateObj('main', id)
 				// delete 不会删除数组元素的其他值 如length
 				// delete this.tags[index]
 				this.tags.splice(index, 1);
@@ -217,7 +217,6 @@
 				this.listLoading = true
 				var self = this
 				var query = self.query('main')
-  			query.descending('createdAt')
 				query.count().then(function (count) {
 					self.count = count
 			  })
@@ -291,7 +290,7 @@
 					type: 'warning'
 				}).then(() => {
 					self.submiting(0)
-					var box = new self.boxUpdate('main', row.id)
+					var box = new self.updateObj('main', row.id)
 					box.destroy().then(function (success) {
 						self.end({ title: '成功', message: '删除成功', type: 'success' })
 						self.getList()

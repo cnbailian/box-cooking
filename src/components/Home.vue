@@ -14,6 +14,7 @@
 					<el-menu-item index="/"><i class="fa fa-th-list"></i>列表</el-menu-item>
 					<el-menu-item index="/type"><i class="fa fa-table"></i>分类</el-menu-item>
 					<el-menu-item index="/tag"><i class="fa fa-tags"></i>标签</el-menu-item>
+					<el-menu-item index="/summary"><i class="fa el-icon-document"></i>总结</el-menu-item>
 				</el-menu>
 			</aside>
 			<!--</el-col>-->

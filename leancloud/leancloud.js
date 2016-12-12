@@ -8,7 +8,8 @@ module.exports = function(Vue)
   // leancloud class
   const className = {
     'main': 'box',
-    'tag' : 'tags'
+    'tag' : 'tags',
+    'summary' : 'summary'
   }
   // you name 只查询所属于此名字的内容
   const name = 'box'
@@ -36,6 +37,7 @@ module.exports = function(Vue)
   Vue.prototype.query = function (parameter){
     var query = new AV.Query(className[parameter])
     query.equalTo('name', name)
+    query.descending('createdAt')
     return query
   }
 }

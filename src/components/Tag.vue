@@ -98,7 +98,6 @@ export default {
       var self = this
       self.loading = true
       var query = this.query('tag')
-      query.descending('createdAt')
 		  query.find().then(function (result) {
 				var array = []
 				result.forEach(function(val){

@@ -138,13 +138,11 @@ export default {
 				type: 'warning'
 			}).then(() => {
 				self.submiting(0)
-				var box = new self.boxUpdate(id)
+				var box = new self.updateObj('main', id)
 				box.destroy().then(function (success) {
-					console.log("a")
 					self.end({ title: '成功', message: '删除成功', type: 'success' })
 					self.getList()
 				}, function (error) {
-					console.log(error)
 					self.end({ title: '失败', message: '删除失败', type: 'error' })
 				});
 			}).catch((e) => {
