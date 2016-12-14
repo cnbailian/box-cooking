@@ -21,6 +21,8 @@ module.exports = function(Vue)
   Vue.prototype.box = AV.Object.extend(className.main)
   // 构建tag对象
   Vue.prototype.tagObj = AV.Object.extend(className.tag)
+  // 构建summary对象
+  Vue.prototype.summary = AV.Object.extend(className.summary)
   // 构建文件对象
   Vue.prototype.file = function(name, obj){
     return new AV.File(name, obj)

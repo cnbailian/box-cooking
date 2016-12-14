@@ -15,6 +15,7 @@ import Link from './components/Link.vue'
 import Tag from './components/Tag.vue'
 import Summary from './components/Summary.vue'
 import Write from './components/Write.vue'
+import Article from './components/Article.vue'
 
 Vue.use(ElementUI)
 Vue.use(VueRouter)
@@ -38,7 +39,9 @@ const routes = [
       { path: '/tag', component: Tag, name: '标签' },
       { path: '/tag/:name', component: Table, name: '筛选列表' },
       { path: '/summary', component: Summary, name: '总结' },
-      { path: '/summary/write', component: Write, name: '写总结' }
+      { path: '/summary/write', component: Write, name: '写总结' },
+      { path: '/summary/edit/:id', component: Write, name: '编辑' },
+      { path: '/summary/article/:id', component: Article, name: '编辑' },
     ]
   }
 ]

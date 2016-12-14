@@ -1,9 +1,16 @@
 <template>
-	<section style="">
-    <el-col :span="12" style="padding:0 10px;">
+	<section>
+		<el-col :span="24">
+			<el-col :span="5" style="margin:5px 10px;">
+				<el-input placeholder="请输入标题" v-model="title"></el-input>
+			</el-col>
+			<el-button type="primary" @click="save(false)" style="margin:5px;" v-loading="saveLoading">保存</el-button>
+			<el-button type="primary" @click="save(true)" style="margin:5px;" v-loading="saveLoading">提交</el-button>
+		</el-col>
+    <el-col :span="12" style="padding:0 10px;" v-loading="loading" element-loading-text="上传中">
       <el-input type="textarea" :autosize="{ minRows: 10, maxRows: 10}" placeholder="markdown格式 右侧在线预览" v-model="textarea"></el-input>
     </el-col>
-    <el-col :span="12" class="show-html" v-html="markdown( textarea )"></el-col>
+    <el-col :span="12" class="show-html" v-html="markdown( textarea )" id="html"></el-col>
 	</section>
 </template>
 
@@ -13,38 +20,88 @@ import markdown from 'markdown'
 export default {
   data() {
     return {
-      textarea: ''
+      textarea: '',
+			title: '',
+			loading: false,
+			id: false,
+			saveLoading: false
     }
   },
 	created(){
-		// document.getElementsByTagName('textarea').addEventListener("click", function(){
-		//     document.getElementById("demo").innerHTML = "Hello World";
-		// }
-		// document.getElementsByTagName('textarea').addEventListener()
-		// document.getElementsByTagName('textarea').onscroll(function(){
-		// 	console.log('aa')
-		// })
-		// document.getElementsByTagName('textarea').onscroll(this.htmlScroll)
+		if (this.$route.params.id) {
+			var query = this.query('summary')
+			var self = this
+			query.get(this.$route.params.id).then(function (todo) {
+				self.id = todo.id
+				self.title = todo.attributes.title
+				self.textarea = todo.attributes.content
+			}, function (error) {
+				console.error(error)
+			})
+		}
+		var self = this
+		setTimeout(function(){
+			// 按滚动条百分比进行预览
+			var holder = document.getElementsByTagName('textarea')[0]
+			holder.addEventListener("scroll", function(){
+				var current = this.scrollTop / (this.scrollHeight - this.clientHeight)
+				var html = document.getElementById('html')
+				html.scrollTop = (html.scrollHeight - html.clientHeight) * current
+			})
+			// 图片推拽上传
+			holder.ondragover = function () { return false }
+			holder.ondragend = function () { return false }
+			holder.ondrop = function (event) {
+				event.preventDefault()
+				var files = event.dataTransfer.files
+				for (var i = 0; i < files.length; i++) {
+					self.loading = true
+					let file = self.file(files[i].name, files[i])
+					file.save().then(function(file) {
+						self.loading = false
+						self.textarea += "\n![]("+file.url()+")"
+			    }, function(error) {
+						self.loading = false
+			      console.error(error)
+			    })
+				}
+			}
+		},1000)
 	},
   methods: {
     markdown:function(html){
       return markdown.markdown.toHTML(html)
     },
-		htmlScroll:function(scroll){
-			console.log(scroll)
+		save:function(jump = false){
+			this.saveLoading = true
+			if (this.textarea == '') return true
+			var self = this
+			var summary = this.id ? new self.updateObj('summary', this.id) : new self.summary()
+			summary.set('name', this.name)
+			summary.set('title', this.title)
+			summary.set('content', this.textarea)
+			summary.save().then(function (todo) {
+				self.saveLoading = false
+				self.id = todo.id
+				if (jump) self.$router.push('/summary')
+		  }, function (error) {
+		    console.error(error)
+		  })
 		}
   }
 }
 </script>
 
 <style>
-section{
-  min-height:895px;
-  background:rgb(224, 224, 224);
+textarea{
+	font-size: 16px;
+	font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","\5FAE\8F6F\96C5\9ED1",Arial,sans-serif;
+	font-weight: 400;
 }
 .show-html{
   float:right;
   height: 895px;
   overflow: auto;
+  line-height: 21px;
 }
 </style>
