@@ -41,7 +41,7 @@ const routes = [
       { path: '/summary', component: Summary, name: '总结' },
       { path: '/summary/write', component: Write, name: '写总结' },
       { path: '/summary/edit/:id', component: Write, name: '编辑' },
-      { path: '/summary/article/:id', component: Article, name: '编辑' },
+      { path: '/summary/article/:id', component: Article, name: '文章' },
     ]
   }
 ]

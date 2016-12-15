@@ -1,26 +1,26 @@
 <template>
-
+	<el-row>
+	  <el-col :span="24" v-html="article">
+		</el-col>
+	</el-row>
 </template>
 
 <script>
-	export default {
-		data() {
-			return {
-				tableData: this.typeList
-			}
-		},
-  	created(){
-  		if (this.$route.params.id) {
-  			var query = this.query('summary')
-  			var self = this
-  			query.get(this.$route.params.id).then(function (todo) {
-  				self.id = todo.id
-  				self.title = todo.attributes.title
-  				self.textarea = todo.attributes.content
-  			}, function (error) {
-  				console.error(error)
-  			})
-      }
-    }
-	}
+import markdown from 'markdown'
+export default {
+	data() {
+		return {
+			article: ''
+		}
+	},
+	created(){
+		var query = this.query('summary')
+		var self = this
+		query.get(this.$route.params.id).then(function (todo) {
+			self.article = markdown.markdown.toHTML(todo.attributes.content)
+		}, function (error) {
+			console.error(error)
+		})
+  }
+}
 </script>
