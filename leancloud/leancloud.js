@@ -3,8 +3,9 @@ import AV from 'leancloud-storage'
 
 module.exports = function(Vue)
 {
-  const appId = 'elR6fJcxD9naWm6FH7IDuEKN-gzGzoHsz'
-  const appKey = '0VRq8PgueqvYQioustY2Cw3I'
+
+  const appId = localStorage.appId ? localStorage.appId : 'elR6fJcxD9naWm6FH7IDuEKN-gzGzoHsz'
+  const appKey = localStorage.appKey ? localStorage.appKey : '0VRq8PgueqvYQioustY2Cw3I'
   // leancloud class
   const className = {
     'main': 'box',
@@ -12,7 +13,7 @@ module.exports = function(Vue)
     'summary' : 'summary'
   }
   // you name 只查询所属于此名字的内容
-  const name = 'box'
+  const name = localStorage.name ? localStorage.name : 'box'
   AV.init({ appId, appKey })
 
   // 传递name

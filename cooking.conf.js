@@ -7,6 +7,7 @@ cooking.set({
   entry: {
     app: ['babel-polyfill', './src/main.js'],
     popup: ['babel-polyfill', './src/popup/main.js'],
+    option: ['babel-polyfill', './src/option/main.js']
   },
   dist: './dist',
   template: {
@@ -16,6 +17,10 @@ cooking.set({
     },
     'popup.html': {
       chunks: ['manifest','vendor','popup'],
+      template: './index.tpl'
+    },
+    'option.html': {
+      chunks: ['manifest','vendor','option'],
       template: './index.tpl'
     }
   },

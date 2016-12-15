@@ -33,16 +33,7 @@ export default {
 	data() {
 		return {
 			content: String(document.execCommand('paste')),
-			options: [{
-				value: 'text',
-				label: '文本'
-			}, {
-				value: 'img',
-				label: '图片'
-			}, {
-				value: 'link',
-				label: '网页'
-			}],
+			options: this.typeList,
 			value: 'text',
 			placeholder: '请输入文本内容 Control+S保存'
 		}
