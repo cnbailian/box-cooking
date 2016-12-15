@@ -1,13 +1,13 @@
 .PHONY: dist test
 
 dev:
-	@npm run dev
+		@npm run dev
 
 dist:
-	@npm run dist
+		@npm run dist
 
 deploy:
-	@npm run deploy
+		@npm run deploy
 
 test:
-	@npm test
+		@npm
