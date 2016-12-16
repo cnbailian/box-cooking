@@ -1,6 +1,6 @@
 <template>
 	<section>
-		<el-row v-loading="loading">
+		<el-row v-loading="loading" style="min-height:100px;">
 		  <el-col :span="8" v-for="(img, index) in imgs">
 		    <el-card :body-style="{ padding: '0px' }">
 					<div style="height:200px;">

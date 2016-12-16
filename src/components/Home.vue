@@ -40,8 +40,8 @@
   export default {
     data() {
       return {
-			  currentPathName:'Table',
-				defaultActive:this.$root._route.path
+			  currentPathName: this.$root._route.name,
+				defaultActive: this.$root._route.path
       }
     },
 		watch: {
