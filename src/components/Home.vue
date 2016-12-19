@@ -37,50 +37,50 @@
 </template>
 
 <script>
-  export default {
-    data() {
-      return {
-			  currentPathName: this.$root._route.name,
+	export default {
+		data() {
+			return {
+				currentPathName: this.$root._route.name,
 				defaultActive: this.$root._route.path
-      }
-    },
+			}
+		},
 		watch: {
 			'$route' (to, from) {//监听路由改变
 				this.currentPathName=to.name
 			}
 		},
-    methods: {
-      onSubmit() {
-        console.log('submit!');
-      },
+		methods: {
+			onSubmit() {
+				console.log('submit!');
+			},
 			handleopen(){
 				//console.log('handleopen');
 			},
 			handleclose(){
 				//console.log('handleclose');
 			},
-      handleselect:function(a,b){
+			handleselect:function(a,b){
 				// console.log(a, b);
-      },
-    }
-  }
+			},
+		}
+	}
 </script>
 
 <style scoped>
 	/* 必需 */
 	.expand-transition {
-	  transition: all .3s ease;
-	  height: 30px;
-	  padding: 10px;
-	  background-color: #eee;
-	  overflow: hidden;
+		transition: all .3s ease;
+		height: 30px;
+		padding: 10px;
+		background-color: #eee;
+		overflow: hidden;
 	}
 	/* .expand-enter 定义进入的开始状态 */
 	/* .expand-leave 定义离开的结束状态 */
 	.expand-enter, .expand-leave {
-	  height: 0;
-	  padding: 0 10px;
-	  opacity: 0;
+		height: 0;
+		padding: 0 10px;
+		opacity: 0;
 	}
 
 	.panel {

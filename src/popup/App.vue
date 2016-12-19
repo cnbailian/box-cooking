@@ -3,8 +3,8 @@
 		<section>
 			<el-row>
 				<el-select v-model="value" placeholder="请选择" @change="handleType">
-			    <el-option v-for="item in options" :label="item.label" :value="item.value"></el-option>
-			  </el-select>
+					<el-option v-for="item in options" :label="item.label" :value="item.value"></el-option>
+				</el-select>
 			</el-row>
 			<el-row>
 				<el-input type="textarea" :autosize="{ minRows: 2, maxRows: 4}" :placeholder="placeholder" v-model="content"  v-focus>
@@ -19,9 +19,9 @@
 
 <script>
 export default {
-  name: 'app',
-  components: {
-  },
+	name: 'app',
+	components: {
+	},
 	// 自定义指令 实现聚焦textarea
 	directives: {
 		focus: {
@@ -138,8 +138,8 @@ export default {
 		font-family: Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei, SimSun, sans-serif;
 		font-weight: 400;
 		-webkit-font-smoothing: antialiased;
-    width: 250px;
-    height: 200px;
+		width: 250px;
+		height: 200px;
 	}
 
 	#app {
@@ -149,10 +149,10 @@ export default {
 		width: 250px;
 	}
 	.el-row {
-	  margin: 10px;
-	  &:last-child {
-	    margin-bottom: 0;
-	  }
+		margin: 10px;
+		&:last-child {
+			margin-bottom: 0;
+		}
 	}
 
 	.el-submenu [class^=fa] {

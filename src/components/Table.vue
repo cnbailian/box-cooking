@@ -26,9 +26,9 @@
 				</el-table-column>
 				<el-table-column label="tag" inline-template width="200">
 					<div v-for="(tag, index) in row.tags" class="tags">
-		      	<el-tag :type="tag.type">{{tag.name}}</el-tag>
+						<el-tag :type="tag.type">{{tag.name}}</el-tag>
 					</div>
-		    </el-table-column>
+				</el-table-column>
 				<el-table-column inline-template :context="_self" label="操作" width="100">
 					<span>
 						<el-button type="text" size="small" @click="setForm(row)">编辑</el-button>
@@ -53,15 +53,15 @@
 				</el-form-item>
 				<el-form-item label="类型">
 					<el-select v-model="editForm.type" placeholder="请选择" @change="handleType">
-				    <el-option v-for="item in options" :label="item.name" :value="item.value"></el-option>
-				  </el-select>
+						<el-option v-for="item in options" :label="item.name" :value="item.value"></el-option>
+					</el-select>
 				</el-form-item>
 				<el-form-item label="图片上传" v-show="showImg">
 					<el-card :body-style="{ padding: '0px' }" style="max-height:300px;"  v-show="showThumbnail">
 						<img :src="thumbnail" class="image">
 					</el-card>
 					<el-upload action="/" :before-upload="handleUplode">
-					  <el-button size="small" type="primary">点击上传</el-button>
+						<el-button size="small" type="primary">点击上传</el-button>
 					</el-upload>
 				</el-form-item>
 				<el-form-item label="内容">
@@ -108,14 +108,14 @@
 	import util from '../common/util'
 	import NProgress from 'nprogress'
 
-  export default {
-	  watch: {
-	    '$route': function (route) {
+	export default {
+		watch: {
+			'$route': function (route) {
 				this.isTag()
-	    }
-	  },
-    data() {
-      return {
+			}
+		},
+		data() {
+			return {
 				formInline: { content: '' }, // 工具条
 				count:0, // 分页总数默认值
 				editFormVisible:false, // 表单页面show开关
@@ -136,17 +136,17 @@
 				tags: [], // 默认tag列表
 				tagTypeValue: '', // 默认tag主题
 				tagType: this.tagTypeList // tag主题列表
-     	}
-    },
+			 }
+		},
 		created(){
 			this.tableSize = 10
 			this.tablePage = 1
 			this.isTag()
 		},
-    methods: {
-      filterTag(value, row) {
-        return row.tag === value;
-      },
+		methods: {
+			filterTag(value, row) {
+				return row.tag === value;
+			},
 			tagForm() {
 				this.showTag = true
 				this.tagValue = ''
@@ -179,17 +179,17 @@
 						break
 				}
 			},
-      handleUplode(file) {
+			handleUplode(file) {
 				this.currentFile = file
 				this.showThumbnail = true
 				var reader = new FileReader();
-        reader.readAsDataURL(file);
+				reader.readAsDataURL(file);
 				var self = this
-        reader.onload = function(e){
-            self.thumbnail = this.result
-        }
+				reader.onload = function(e){
+						self.thumbnail = this.result
+				}
 				return false
-      },
+			},
 			// 设置size
 			sizeChange:function(size){
 				this.tableSize = size
@@ -219,14 +219,14 @@
 				var query = self.query('main')
 				query.count().then(function (count) {
 					self.count = count
-			  })
+				})
 				query.limit(this.tableSize)
-			  query.skip((this.tablePage - 1) * this.tableSize)
+				query.skip((this.tablePage - 1) * this.tableSize)
 				if (where)
 					query.containsAll('tags', [where])
 				if (content)
 					query.contains('content', content)
-			  query.find().then(function (result) {
+				query.find().then(function (result) {
 					var array = []
 					result.forEach(function(val){
 						let value = val.attributes
@@ -235,7 +235,7 @@
 					})
 					self.tableData = array
 					self.listLoading = false
-			  })
+				})
 			},
 			// 表单赋值
 			setForm:function(row){
@@ -294,9 +294,9 @@
 					box.destroy().then(function (success) {
 						self.end({ title: '成功', message: '删除成功', type: 'success' })
 						self.getList()
-				  }, function (error) {
+					}, function (error) {
 						self.end({ title: '失败', message: '删除失败', type: 'error' })
-				  })
+					})
 				}).catch(() => {
 				})
 			},
@@ -318,17 +318,17 @@
 					self.editForm.description = self.description
 					var fileName = self.currentFile ? self.currentFile.name : self.editForm.content.replace(/^.*[\\\/]/, '')
 					var file = self.currentFile ? self.file(fileName, self.currentFile) :  self.networkFile(fileName, self.editForm.content)
-			    file.save().then(function(file) {
+					file.save().then(function(file) {
 						box.set('content', file.url())
 						box.save().then(function (todo) {
 							self.end({ title: '成功', message: '提交成功', type: 'success' })
 							self.getList()
-					  }, function (error) {
+						}, function (error) {
 							self.end({ title: '失败', message: '提交失败'+error, type: 'error' })
-					  })
-			    }, function(error) {
-			      console.error(error)
-			    })
+						})
+					}, function(error) {
+						console.error(error)
+					})
 				}else{
 					box.save().then(function (todo) {
 						self.end({ title: '成功', message: '提交成功', type: 'success' })
@@ -339,8 +339,8 @@
 				}
 			}
 
-    }
-  }
+		}
+	}
 </script>
 
 <style scoped>

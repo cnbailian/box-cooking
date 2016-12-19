@@ -9,6 +9,6 @@ Vue.use(ElementUI)
 Vue.use(require('../../leancloud/leancloud'))
 
 new Vue({
-  el: '#app',
-  render: h => h(App)
+	el: '#app',
+	render: h => h(App)
 })

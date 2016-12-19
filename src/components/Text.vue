@@ -1,20 +1,20 @@
 <template>
 	<section>
 		<el-row v-loading="loading" style="min-height:100px;">
-		  <el-col :span="8" v-for="(text, index) in texts">
-		    <el-card :body-style="{ padding: '0px' }">
+			<el-col :span="8" v-for="(text, index) in texts">
+				<el-card :body-style="{ padding: '0px' }">
 					<div style="padding: 14px;min-height:200px;">
-		        <span>{{ text.content }}</span>
+						<span>{{ text.content }}</span>
 					</div>
-		      <div style="padding: 14px;">
-		        <div class="bottom clearfix">
-						  <time class="time">{{ text.time }}</time>
-		          <el-button type="text" class="button" @click="handleDel(text.id)">删除</el-button>
-		          <el-button type="text" class="button" @click="handleEdit(text)" style="margin-right:10px;">编辑</el-button>
-		        </div>
-		      </div>
-		    </el-card>
-		  </el-col>
+					<div style="padding: 14px;">
+						<div class="bottom clearfix">
+							<time class="time">{{ text.time }}</time>
+							<el-button type="text" class="button" @click="handleDel(text.id)">删除</el-button>
+							<el-button type="text" class="button" @click="handleEdit(text)" style="margin-right:10px;">编辑</el-button>
+						</div>
+					</div>
+				</el-card>
+			</el-col>
 		</el-row>
 
 		<!--分页-->
@@ -99,7 +99,7 @@ export default {
 			this.loading = true
 			var self = this
 			var query = self.query('main')
-		  query.equalTo('type', 'text')
+			query.equalTo('type', 'text')
 			query.count().then(function (count) {
 				self.count = count
 			})
@@ -173,7 +173,7 @@ export default {
 		max-width: 100%;
 		max-height: 100%;
 		display: block;
-    margin: 0 auto;
+		margin: 0 auto;
 	}
 
 	.clearfix:before,

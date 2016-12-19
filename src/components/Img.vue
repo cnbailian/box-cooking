@@ -1,21 +1,21 @@
 <template>
 	<section>
 		<el-row v-loading="loading" style="min-height:100px;">
-		  <el-col :span="8" v-for="(img, index) in imgs">
-		    <el-card :body-style="{ padding: '0px' }">
+			<el-col :span="8" v-for="(img, index) in imgs">
+				<el-card :body-style="{ padding: '0px' }">
 					<div style="height:200px;">
-		      	<img :src="img.content" class="image">
+						<img :src="img.content" class="image">
 					</div>
-		      <div style="padding: 14px;">
-		        <span>{{ img.description }}</span>
-		        <div class="bottom clearfix">
-						  <time class="time">{{ img.time }}</time>
-		          <el-button type="text" class="button" @click="handleDel(img.id)">删除</el-button>
-		          <el-button type="text" class="button" @click="handleEdit(img)" style="margin-right:10px;">编辑</el-button>
-		        </div>
-		      </div>
-		    </el-card>
-		  </el-col>
+					<div style="padding: 14px;">
+						<span>{{ img.description }}</span>
+						<div class="bottom clearfix">
+							<time class="time">{{ img.time }}</time>
+							<el-button type="text" class="button" @click="handleDel(img.id)">删除</el-button>
+							<el-button type="text" class="button" @click="handleEdit(img)" style="margin-right:10px;">编辑</el-button>
+						</div>
+					</div>
+				</el-card>
+			</el-col>
 		</el-row>
 
 		<!--分页-->
@@ -100,7 +100,7 @@ export default {
 			this.loading = true
 			var self = this
 			var query = self.query('main')
-		  query.equalTo('type', 'img')
+			query.equalTo('type', 'img')
 			query.count().then(function (count) {
 				self.count = count
 			})
@@ -174,7 +174,7 @@ export default {
 		max-width: 100%;
 		max-height: 100%;
 		display: block;
-    margin: 0 auto;
+		margin: 0 auto;
 	}
 
 	.clearfix:before,

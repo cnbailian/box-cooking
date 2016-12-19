@@ -1,6 +1,6 @@
 <template>
 	<el-row>
-	  <el-col :span="24" v-html="article">
+		<el-col :span="24" v-html="article">
 		</el-col>
 	</el-row>
 </template>
@@ -21,6 +21,6 @@ export default {
 		}, function (error) {
 			console.error(error)
 		})
-  }
+	}
 }
 </script>

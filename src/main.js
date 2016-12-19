@@ -26,40 +26,40 @@ Vue.use(require('../leancloud/type'))
 
 // 路由
 const routes = [
-  {
-    path: '/',
-    component: Home,
-    name: 'Home',
-    children: [
-      { path: '/', component: Table, name: '列表' },
-      { path: '/type', component: Type, name: '分类' },
-      { path: '/img', component: Img, name: '图像' },
-      { path: '/text', component: Text, name: '文本' },
-      { path: '/link', component: Link, name: '网页' },
-      { path: '/tag', component: Tag, name: '标签' },
-      { path: '/tag/:name', component: Table, name: '筛选列表' },
-      { path: '/summary', component: Summary, name: '总结' },
-      { path: '/summary/write', component: Write, name: '写总结' },
-      { path: '/summary/edit/:id', component: Write, name: '编辑' },
-      { path: '/summary/article/:id', component: Article, name: '文章' },
-    ]
-  }
+	{
+		path: '/',
+		component: Home,
+		name: 'Home',
+		children: [
+			{ path: '/', component: Table, name: '列表' },
+			{ path: '/type', component: Type, name: '分类' },
+			{ path: '/img', component: Img, name: '图像' },
+			{ path: '/text', component: Text, name: '文本' },
+			{ path: '/link', component: Link, name: '网页' },
+			{ path: '/tag', component: Tag, name: '标签' },
+			{ path: '/tag/:name', component: Table, name: '筛选列表' },
+			{ path: '/summary', component: Summary, name: '总结' },
+			{ path: '/summary/write', component: Write, name: '写总结' },
+			{ path: '/summary/edit/:id', component: Write, name: '编辑' },
+			{ path: '/summary/article/:id', component: Article, name: '文章' },
+		]
+	}
 ]
 const router = new VueRouter({
-  routes
+	routes
 })
 
 router.beforeEach((to, from, next) => {
-  NProgress.start();
-  next()
+	NProgress.start();
+	next()
 })
 
 router.afterEach(transition => {
-  NProgress.done();
+	NProgress.done();
 });
 
 new Vue({
-  el: '#app',
-  router,
-  render: h => h(App)
+	el: '#app',
+	router,
+	render: h => h(App)
 })

@@ -7,7 +7,7 @@
 			</el-table-column>
 			<el-table-column inline-template label="姓名">
 				<div><a target="_blank" :href="row">{{row.content}}</a></div>
-	    </el-table-column>
+			</el-table-column>
 			<el-table-column inline-template :context="_self" label="操作" width="100">
 				<span>
 					<el-button type="text" size="small" @click="handleDel(row)">删除</el-button>
@@ -56,7 +56,7 @@ export default {
 			this.listLoading = true
 			var self = this
 			var query = self.query('main')
-		  query.equalTo('type', 'link')
+			query.equalTo('type', 'link')
 			query.count().then(function (count) {
 				self.count = count
 			})
