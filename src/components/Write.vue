@@ -27,6 +27,34 @@ export default {
 			saveLoading: false
     }
   },
+	mounted: function() {
+		var self = this
+		// 按滚动条百分比进行预览
+		var holder = document.getElementsByTagName('textarea')[0]
+		holder.addEventListener("scroll", function(){
+			var current = this.scrollTop / (this.scrollHeight - this.clientHeight)
+			var html = document.getElementById('html')
+			html.scrollTop = (html.scrollHeight - html.clientHeight) * current
+		})
+		// 图片推拽上传
+		holder.ondragover = function () { return false }
+		holder.ondragend = function () { return false }
+		holder.ondrop = function (event) {
+			event.preventDefault()
+			var files = event.dataTransfer.files
+			for (var i = 0; i < files.length; i++) {
+				self.loading = true
+				let file = self.file(files[i].name, files[i])
+				file.save().then(function(file) {
+					self.loading = false
+					self.textarea += "\n![]("+file.url()+")"
+				}, function(error) {
+					self.loading = false
+					console.error(error)
+				})
+			}
+		}
+	},
 	created(){
 		if (this.$route.params.id) {
 			var query = this.query('summary')
@@ -39,34 +67,6 @@ export default {
 				console.error(error)
 			})
 		}
-		var self = this
-		setTimeout(function(){
-			// 按滚动条百分比进行预览
-			var holder = document.getElementsByTagName('textarea')[0]
-			holder.addEventListener("scroll", function(){
-				var current = this.scrollTop / (this.scrollHeight - this.clientHeight)
-				var html = document.getElementById('html')
-				html.scrollTop = (html.scrollHeight - html.clientHeight) * current
-			})
-			// 图片推拽上传
-			holder.ondragover = function () { return false }
-			holder.ondragend = function () { return false }
-			holder.ondrop = function (event) {
-				event.preventDefault()
-				var files = event.dataTransfer.files
-				for (var i = 0; i < files.length; i++) {
-					self.loading = true
-					let file = self.file(files[i].name, files[i])
-					file.save().then(function(file) {
-						self.loading = false
-						self.textarea += "\n![]("+file.url()+")"
-			    }, function(error) {
-						self.loading = false
-			      console.error(error)
-			    })
-				}
-			}
-		},1000)
 	},
   methods: {
     markdown:function(html){
@@ -103,5 +103,6 @@ textarea{
   height: 895px;
   overflow: auto;
   line-height: 21px;
+  font-size: 15px
 }
 </style>
