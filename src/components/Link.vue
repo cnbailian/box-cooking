@@ -5,8 +5,13 @@
 			</el-table-column>
 			<el-table-column prop="name" label="姓名" width="100" sortable>
 			</el-table-column>
-			<el-table-column inline-template label="姓名">
+			<el-table-column inline-template label="链接">
 				<div><a target="_blank" :href="row">{{row.content}}</a></div>
+			</el-table-column>
+			<el-table-column label="tag" inline-template width="200">
+				<div v-for="(tag, index) in row.tags" class="tags">
+					<el-tag :type="tag.type">{{tag.name}}</el-tag>
+				</div>
 			</el-table-column>
 			<el-table-column inline-template :context="_self" label="操作" width="100">
 				<span>
@@ -134,11 +139,16 @@ export default {
 
 	.clearfix:before,
 	.clearfix:after {
-			display: table;
-			content: "";
+		display: table;
+		content: "";
 	}
 
 	.clearfix:after {
-			clear: both
+		clear: both
+	}
+	.tags {
+		margin-right:10px;
+		float:left;
+		margin-bottom: 5px;
 	}
 </style>

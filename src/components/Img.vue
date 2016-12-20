@@ -8,6 +8,9 @@
 					</div>
 					<div style="padding: 14px;">
 						<span>{{ img.description }}</span>
+						<div class="tag">
+							<el-tag :type="tag.type" v-for="(tag, index) in img.tags">{{tag.name}}</el-tag>
+						</div>
 						<div class="bottom clearfix">
 							<time class="time">{{ img.time }}</time>
 							<el-button type="text" class="button" @click="handleDel(img.id)">删除</el-button>
@@ -179,11 +182,17 @@ export default {
 
 	.clearfix:before,
 	.clearfix:after {
-			display: table;
-			content: "";
+		display: table;
+		content: "";
 	}
 
 	.clearfix:after {
-			clear: both
+		clear: both
+	}
+	.tag{
+		margin: 10px 0px;
+	}
+	.tag span{
+		margin-right: 7px;
 	}
 </style>

@@ -7,6 +7,9 @@
 						<span>{{ text.content }}</span>
 					</div>
 					<div style="padding: 14px;">
+						<div class="tag">
+							<el-tag :type="tag.type" v-for="(tag, index) in text.tags">{{tag.name}}</el-tag>
+						</div>
 						<div class="bottom clearfix">
 							<time class="time">{{ text.time }}</time>
 							<el-button type="text" class="button" @click="handleDel(text.id)">删除</el-button>
@@ -26,8 +29,8 @@
 
 		<el-dialog title="编辑" v-model="showForm" :close-on-click-modal="false">
 			<el-form label-width="80px" ref="editForm">
-				<el-form-item label="描述">
-					<el-input type="textarea" v-model="content" placeholder="描述"></el-input>
+				<el-form-item label="内容">
+					<el-input type="textarea" v-model="content" placeholder="内容"></el-input>
 				</el-form-item>
 			</el-form>
 			<div slot="footer" class="dialog-footer">
@@ -178,11 +181,17 @@ export default {
 
 	.clearfix:before,
 	.clearfix:after {
-			display: table;
-			content: "";
+		display: table;
+		content: "";
 	}
 
 	.clearfix:after {
-			clear: both
+		clear: both
+	}
+	.tag{
+		margin: 10px 0px;
+	}
+	.tag span{
+		margin-right: 7px;
 	}
 </style>

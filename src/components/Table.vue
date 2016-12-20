@@ -356,5 +356,6 @@
 	.tags {
 		margin-right:10px;
 		float:left;
+		margin-bottom: 5px;
 	}
 </style>
