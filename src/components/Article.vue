@@ -1,12 +1,13 @@
 <template>
 	<el-row>
-		<el-col :span="24" v-html="article">
+		<el-col :span="24" v-html="article" class="blog-markdown">
 		</el-col>
 	</el-row>
 </template>
 
 <script>
 import markdown from 'markdown'
+
 export default {
 	data() {
 		return {
@@ -24,3 +25,6 @@ export default {
 	}
 }
 </script>
+<style media="screen">
+	@import "../assets/markdown.css";
+</style>

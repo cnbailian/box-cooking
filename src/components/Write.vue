@@ -10,7 +10,7 @@
 		<el-col :span="12" style="padding:0 10px;" v-loading="loading" element-loading-text="上传中">
 			<el-input type="textarea" :autosize="{ minRows: 10, maxRows: 10}" placeholder="markdown格式 右侧在线预览" v-model="textarea"></el-input>
 		</el-col>
-		<el-col :span="12" class="show-html" v-html="markdown( textarea )" id="html"></el-col>
+		<el-col :span="12" class="show-html blog-markdown" v-html="markdown( textarea )" id="html"></el-col>
 	</section>
 </template>
 
@@ -93,16 +93,17 @@ export default {
 </script>
 
 <style>
-textarea{
-	font-size: 16px;
-	font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","\5FAE\8F6F\96C5\9ED1",Arial,sans-serif;
-	font-weight: 400;
-}
-.show-html{
-	float:right;
-	height: 895px;
-	overflow: auto;
-	line-height: 21px;
-	font-size: 15px
-}
+	@import "../assets/markdown.css";
+	textarea{
+		font-size: 16px;
+		font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","\5FAE\8F6F\96C5\9ED1",Arial,sans-serif;
+		font-weight: 400;
+	}
+	.show-html{
+		float:right;
+		height: 895px;
+		overflow: auto;
+		line-height: 21px;
+		font-size: 15px
+	}
 </style>
