@@ -4,7 +4,7 @@
 			<el-col :span="8" v-for="(text, index) in texts">
 				<el-card :body-style="{ padding: '0px' }">
 					<div style="padding: 14px;min-height:200px;">
-						<span>{{ text.content }}</span>
+						<span><pre>{{ text.content }}</pre></span>
 					</div>
 					<div style="padding: 14px;">
 						<div class="tag">
@@ -193,5 +193,9 @@ export default {
 	}
 	.tag span{
 		margin-right: 7px;
+	}
+	pre {
+		white-space: pre-wrap;
+    word-wrap: break-word;
 	}
 </style>
