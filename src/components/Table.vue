@@ -74,6 +74,10 @@
 						</el-tag>
 					</div>
 					<el-button type="primary" icon="plus" size="mini" @click="tagForm"></el-button>
+					<div style="clear: both;"></div>
+					<div class="tags" v-for="(tag, index) in tagList">
+						<span style="cursor: pointer;" v-bind:class="tag.classObj" @click="handleAddTag(tag)">{{tag.tag}}</span>
+					</div>
 				</el-form-item>
 				<el-form-item label="描述" v-show="showImg">
 					<el-input type="textarea" v-model="description" placeholder="描述"></el-input>
@@ -135,6 +139,7 @@
 				tagValue: '', // tag默认内容
 				tags: [], // 默认tag列表
 				tagTypeValue: '', // 默认tag主题
+				tagList: [], // 默认all tag
 				tagType: this.tagTypeList // tag主题列表
 			 }
 		},
@@ -142,6 +147,19 @@
 			this.tableSize = 10
 			this.tablePage = 1
 			this.isTag()
+			var self = this
+			var query = this.query('tag')
+			query.find().then(function (result) {
+				var array = []
+				result.forEach(function(val){
+					let value = val.attributes
+					value['id'] = val.id
+					value['classObj'] = { "el-tag" : true }
+					value['classObj']["el-tag--"+value.type] = true
+					array.push(value)
+				})
+				self.tagList = array
+			})
 		},
 		methods: {
 			filterTag(value, row) {
@@ -151,9 +169,11 @@
 				this.showTag = true
 				this.tagValue = ''
 			},
-			handleAddTag() {
+			handleAddTag(existing = false) {
 				this.showTag = false
-				this.tags.push({ type: this.tagTypeValue, name: this.tagValue })
+				var tags = { type: this.tagTypeValue, name: this.tagValue }
+				if (existing.id) tags = { type: existing.type, name: existing.tag}
+				this.tags.push(tags)
 			},
 			handleDelTag(id, index) {
 				var box = new this.updateObj('main', id)
