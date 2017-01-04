@@ -38,8 +38,8 @@
 		},
 		methods: {
 			onSubmit() {
-				localStorage.appId = this.form.appId
-				localStorage.appKey = this.form.appKey
+				if (this.form.appId) localStorage.appId = this.form.appId
+				if (this.form.appKey) localStorage.appKey = this.form.appKey
 				localStorage.name = this.form.name
 				this.$notify({
 					title: 'success',
