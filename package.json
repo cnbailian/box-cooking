@@ -23,7 +23,7 @@
     "babel-polyfill": "*",
     "flex.css": "^1.1.6",
     "leancloud-storage": "^1.5.2",
-    "markdown": "^0.5.0",
+    "showdown": "^1.5.5",
     "nprogress": "^0.2.0",
     "vue": "^2.0.1",
     "worker-loader": "^0.7.1",
@@ -54,8 +54,10 @@
     "shelljs": "^0.7.5",
     "style-loader": "^0.13.1",
     "url-loader": "^0.5.7",
+    "vue-loader": "^10.0.2",
     "vue-route": "^1.5.1",
     "vue-router": "^2.0.3",
+    "vue-template-compiler": "^2.1.8",
     "webpack": "^2.1.0-beta.27",
     "webpack-dev-server": "^2.1.0-beta.12"
   }

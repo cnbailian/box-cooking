@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import markdown from 'markdown'
+import showdown from 'showdown'
 
 export default {
 	data() {
@@ -56,6 +56,7 @@ export default {
 		}
 	},
 	created(){
+		this.converter = new showdown.Converter()
 		if (this.$route.params.id) {
 			var query = this.query('summary')
 			var self = this
@@ -70,7 +71,7 @@ export default {
 	},
 	methods: {
 		markdown:function(html){
-			return markdown.markdown.toHTML(html)
+			return this.converter.makeHtml(html)
 		},
 		save:function(jump = false){
 			this.saveLoading = true

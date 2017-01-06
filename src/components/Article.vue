@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import markdown from 'markdown'
+import showdown from 'showdown'
 
 export default {
 	data() {
@@ -18,7 +18,7 @@ export default {
 		var query = this.query('summary')
 		var self = this
 		query.get(this.$route.params.id).then(function (todo) {
-			self.article = markdown.markdown.toHTML(todo.attributes.content)
+			self.article = new showdown.Converter().makeHtml(todo.attributes.content)
 		}, function (error) {
 			console.error(error)
 		})
