@@ -1,11 +1,11 @@
 // lean-cloud 插件
 import AV from 'leancloud-storage'
 
-module.exports = function(Vue)
+export default function(Vue)
 {
 
-	const appId = localStorage.appId ? localStorage.appId : 'elR6fJcxD9naWm6FH7IDuEKN-gzGzoHsz'
-	const appKey = localStorage.appKey ? localStorage.appKey : '0VRq8PgueqvYQioustY2Cw3I'
+	const appId = localStorage.appId ? localStorage.appId : 'yTYdIM9YSQBo3qLLeK3ytgMS-gzGzoHsz'
+	const appKey = localStorage.appKey ? localStorage.appKey : 'vJuqS2GpE7h5Kp2eBd2h2My6'
 	// leancloud class
 	const className = {
 		'main': 'box',

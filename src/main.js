@@ -17,12 +17,15 @@ import Summary from './components/Summary.vue'
 import Write from './components/Write.vue'
 import Article from './components/Article.vue'
 
+import leancloud from '../leancloud/leancloud'
+import leancloudType from '../leancloud/type'
+
 Vue.use(ElementUI)
 Vue.use(VueRouter)
 
 // leancloud
-Vue.use(require('../leancloud/leancloud'))
-Vue.use(require('../leancloud/type'))
+Vue.use(leancloud)
+Vue.use(leancloudType)
 
 // 路由
 const routes = [

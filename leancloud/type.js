@@ -1,5 +1,5 @@
 // 类型
-module.exports = function(Vue)
+export default function(Vue)
 {
 	const type = [{
 		value: 'img',

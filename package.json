@@ -40,7 +40,7 @@
     "cooking-autoprefixer": "*",
     "cooking-buble": "*",
     "cooking-lint": "*",
-    "cooking-vue2": "*",
+    "cooking-vue2": "^0.3.0",
     "css-loader": "^0.24.0",
     "element-ui": "^1.0.3",
     "extract-text-webpack-plugin": "^2.0.0-beta.4",
@@ -58,7 +58,7 @@
     "vue-route": "^1.5.1",
     "vue-router": "^2.0.3",
     "vue-template-compiler": "^2.1.8",
-    "webpack": "^2.1.0-beta.27",
+    "webpack": "^2.1.0-beta.22",
     "webpack-dev-server": "^2.1.0-beta.12"
   }
 }

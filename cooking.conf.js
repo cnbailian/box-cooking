@@ -1,7 +1,5 @@
 var path = require('path');
 var cooking = require('cooking');
-var webpack = require('webpack');
-var HtmlWebpackPlugin = require('html-webpack-plugin');
 
 cooking.set({
   entry: {
